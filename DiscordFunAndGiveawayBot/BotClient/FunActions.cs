@@ -6,6 +6,12 @@ namespace UltraGiveawayBot
 {
     public class FunActions : ModuleBase
     {
+        private IDiscordClient _discordClient;
+        public FunActions(IDiscordClient client)
+        {
+            _discordClient = client;
+        }
+
         private static IMessageChannel _channel;
         private static IUser _user;
         [Command("sendmessage"), Summary("Initialisiert ein neues Giveaway")]
@@ -14,8 +20,8 @@ namespace UltraGiveawayBot
             _channel = channel;
             _user = user;
 
-            DiscordClient.Client.MessageReceived -= Client_MessageReceived;
-            DiscordClient.Client.MessageReceived += Client_MessageReceived;
+            _discordClient.Client.MessageReceived -= Client_MessageReceived;
+            _discordClient.Client.MessageReceived += Client_MessageReceived;
             await ReplyAsync("Kein Problem, gib die Nachricht jetzt ein!");
         }
 
@@ -24,8 +30,8 @@ namespace UltraGiveawayBot
         {
             _channel = channel;
 
-            DiscordClient.Client.MessageReceived -= Client_MessageReceived;
-            DiscordClient.Client.MessageReceived += Client_MessageReceived;
+            _discordClient.Client.MessageReceived -= Client_MessageReceived;
+            _discordClient.Client.MessageReceived += Client_MessageReceived;
             await ReplyAsync("Kein Problem, gib die Nachricht jetzt ein!");
         }
 
@@ -33,7 +39,7 @@ namespace UltraGiveawayBot
         {
             if (!arg.Author.IsBot)
             {
-                DiscordClient.Client.MessageReceived -= Client_MessageReceived;
+                _discordClient.Client.MessageReceived -= Client_MessageReceived;
                 await _channel.SendMessageAsync(_user?.Mention + " " + arg.Content);
                 _channel = null;
                 _user = null;

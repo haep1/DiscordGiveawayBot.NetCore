@@ -19,10 +19,13 @@ namespace UltraGiveawayBot
             InitValues = new List<GiveAwayValues>();
         }
 
-        public GiveAway()
+        private IDiscordClient _discordClient;
+        public GiveAway(IDiscordClient client)
         {
-            DiscordClient.Client.MessageReceived -= Client_MessageReceived;
-            DiscordClient.Client.MessageReceived += Client_MessageReceived;
+            _discordClient = client;
+
+            _discordClient.Client.MessageReceived -= Client_MessageReceived;
+            _discordClient.Client.MessageReceived += Client_MessageReceived;
         }
 
         [Command("initgiveaway"), Summary("Initialisiert ein neues Giveaway")]
@@ -55,11 +58,11 @@ namespace UltraGiveawayBot
                     !userMessage.Author.IsBot &&
                     userMessage.Channel == inits.AdminChannel &&
                     userMessage.Author == inits.AdminUser)
-                {                   
+                {
                     if (userMessage.Content.ToLower().Equals("cancel"))
                     {
                         Console.WriteLine("Giveaway canceled");
-                        DiscordClient.Client.MessageReceived -= Client_MessageReceived;
+                        _discordClient.Client.MessageReceived -= Client_MessageReceived;
                     }
 
                     switch (inits.State)
@@ -192,7 +195,7 @@ namespace UltraGiveawayBot
 
         public async Task StartGiveAwayTimer(string message)
         {
-            if(!message.Equals("start"))
+            if (!message.Equals("start"))
             {
                 return;
             }
@@ -204,7 +207,7 @@ namespace UltraGiveawayBot
                 return;
             }
 
-            DiscordClient.Client.MessageReceived -= Client_MessageReceived;
+            _discordClient.Client.MessageReceived -= Client_MessageReceived;
             inits.Timer = new Timer();
             Console.WriteLine("StarteGiveaway");
 

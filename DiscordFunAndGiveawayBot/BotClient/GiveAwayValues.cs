@@ -92,15 +92,5 @@ namespace UltraGiveawayBot
             }
             Timer = null;
         }
-
-        private void SaveValuesToDb()
-        {
-            
-        }
-
-        private void LoadValuesFromDb()
-        {
-            
-        }
     }
 }

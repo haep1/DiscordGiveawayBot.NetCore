@@ -1,20 +1,22 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace UltraGiveawayBot
 {
-    public static class DiscordClient
+    public class DiscordClient : IDiscordClient
     {
-        private static CommandService Commands { get; set; }
-        public static DiscordSocketClient Client { get; set; }
-        private static IServiceProvider Services { get; set; }
+        private CommandService Commands { get; set; }
+        public DiscordSocketClient Client { get; set; }
+        private IServiceProvider Services { get; set; }
 
-        public static async Task RunBot(string token)
+        public bool IsRunnging { get; private set; }
+
+        public async Task RunBot(string token, IServiceProvider provider)
         {
+            IsRunnging = true;
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = Discord.LogSeverity.Debug
@@ -27,7 +29,7 @@ namespace UltraGiveawayBot
                 DefaultRunMode = RunMode.Async
             });
 
-            Services = new ServiceCollection().BuildServiceProvider();
+            Services = provider;
 
             await Commands.AddModulesAsync(Assembly.GetExecutingAssembly(), Services);
 
@@ -44,11 +46,11 @@ namespace UltraGiveawayBot
             if (arg.Message != "Received Dispatch (PRESENCE_UPDATE)")
             {
                 Console.WriteLine("Logging: " + arg.Message);
-            }            
+            }
             return Task.CompletedTask;
         }
 
-        private static async Task Client_MessageReceived(SocketMessage arg)
+        private async Task Client_MessageReceived(SocketMessage arg)
         {
             Console.WriteLine("MessageReceived: " + arg.Content);
             if (arg is SocketUserMessage userMessage)
