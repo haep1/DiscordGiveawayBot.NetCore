@@ -120,6 +120,18 @@
   <data name="EnterMessageNow" xml:space="preserve">
     <value>No problem, enter the message now!</value>
   </data>
+  <data name="GiveawayAnnounce" xml:space="preserve">
+    <value>Dear Wusel friends, let's start a new giveaway!</value>
+  </data>
+  <data name="GiveawayAnnounceKeyword" xml:space="preserve">
+    <value>Just write the codeword `{0}` to participate.</value>
+  </data>
+  <data name="GiveawayAnnounceNext" xml:space="preserve">
+    <value>Let's start the next giveaway!</value>
+  </data>
+  <data name="GiveawayAnnounceWin" xml:space="preserve">
+    <value>You can win: **{0}**</value>
+  </data>
   <data name="GiveawayCanceled" xml:space="preserve">
     <value>The giveaway initiation was canceled!</value>
   </data>
@@ -128,6 +140,9 @@
   </data>
   <data name="GiveawayEnterTime" xml:space="preserve">
     <value>Please tell me first when the drawings should take place.</value>
+  </data>
+  <data name="GiveawayErrorTimer" xml:space="preserve">
+    <value>Error creating the timer. Giveaway failed to initialize.</value>
   </data>
   <data name="GiveawayHowOften" xml:space="preserve">
     <value>How often should the Giveaway take place?</value>
@@ -155,6 +170,9 @@
   </data>
   <data name="GiveawayPriceExample" xml:space="preserve">
     <value>For example, enter `Ein toller Key Code`!</value>
+  </data>
+  <data name="GiveawayStarted" xml:space="preserve">
+    <value>Giveaway was started!</value>
   </data>
   <data name="GiveawayStartNew" xml:space="preserve">
     <value>Alright, let's start a new giveaway!</value>

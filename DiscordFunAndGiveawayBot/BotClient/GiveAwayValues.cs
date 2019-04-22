@@ -17,8 +17,7 @@ namespace UltraGiveawayBot
         public IMessageChannel GiveawayChannel { get; set; }
         public IMessageChannel AdminChannel { get; set; }
         public IUser AdminUser { get; set; }
-        public string AwardGerman { get; set; }
-        public string AwardEnglish { get; set; }
+        public Dictionary<string, string> CultureAward { get; set; } = new Dictionary<string, string>();
         public static string WinMessageGerman { get
             {
                 return "Liebe Wusel Freunde, wir haben einen Gewinner:";
@@ -32,45 +31,6 @@ namespace UltraGiveawayBot
             }
         }
 
-        public string NextGiveawayMessageGerman
-        {
-            get
-            {
-                return Environment.NewLine + $"Auf geht's zum nächsten Giveaway! " + Environment.NewLine +
-                       $"Zu gewinnen gibt es erneut: **{AwardGerman}**" + Environment.NewLine + 
-                       $"Schreibt einfach wieder `{Codeword}` um teilzunehmen. :tada:";
-            }
-        }
-
-        public string NextGiveawayMessageEnglish
-        {
-            get
-            {
-                return Environment.NewLine + $"Let's start the next giveaway! " + Environment.NewLine +
-                       $"Again you can win: **{AwardEnglish}**" + Environment.NewLine +
-                       $"Just write the codeword `{Codeword}` to join. :tada:";
-            }
-        }
-
-        public string FirstGiveawayMessageGerman
-        {
-            get
-            {
-                return Environment.NewLine + $"Liebe Wusel Freunde, lasst uns ein neues Giveaway starten! " + Environment.NewLine +
-                       $"Zu gewinnen gibt es: **{AwardGerman}**" + Environment.NewLine +
-                       $"Schreibt einfach `{Codeword}` um teilzunehmen. :tada:";
-            }
-        }
-
-        public string FirstGiveawayMessageEnglish
-        {
-            get
-            {
-                return Environment.NewLine + $"Dear Wusel friends, let's start a new giveaway! " + Environment.NewLine +
-                       $"You can win: **{AwardEnglish}**" + Environment.NewLine +
-                       $"Just write the codeword `{Codeword}` to join. :tada:";
-            }
-        }
         public GiveAwayState State { get; set; }
         public Timer Timer { get; set; }
 
@@ -83,8 +43,7 @@ namespace UltraGiveawayBot
             GiveawayChannel = null;
             AdminChannel = null;
             AdminUser = null;
-            AwardGerman = null;
-            AwardEnglish = null;
+            CultureAward = new Dictionary<string, string>();
             State = GiveAwayState.None;
             if (Timer != null)
             {

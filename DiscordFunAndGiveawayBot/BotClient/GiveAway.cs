@@ -103,38 +103,39 @@ namespace UltraGiveawayBot
                 return;
             }
 
-            if (inits == null)
-            {
-                await ReplyAsync($"Giveaway wurde nicht initialisiert!");
-                return;
-            }
-
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
             inits.Timer = new Timer();
-            Console.WriteLine("StarteGiveaway");
+            Console.WriteLine("StartingGiveaway");
 
             if (!inits.Timer.SetUpTimer(inits.GiveAwayTime, inits.GiveAwayDateTime, new Action(() =>
             {
                 Task.Run(SetTimerValues);
             })))
             {
-                await ReplyAsync($"Fehler bei der Erstellung des Timers. Giveaway konnte nicht initialisiert werden.");
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayErrorTimer"));
                 return;
             }
 
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.WithDescription(inits.FirstGiveawayMessageGerman);
-            AddEndTimeField(inits, embed, true);
+            foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
+            {
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.WithDescription(GetGiveawayMessage(culture, inits, true));
+                AddEndTimeField(inits, embed, true);
 
-            await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
+                await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
+            }
 
-            embed = new EmbedBuilder();
-            embed.WithDescription(inits.FirstGiveawayMessageEnglish);
-            AddEndTimeField(inits, embed, false);
+            await ReplyAsync(":tada: " + _discordClient.CultureHelper.GetAdminString("GiveawayStarted"));
+        }
 
-            await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
-
-            await ReplyAsync($":tada: Giveaway wurde gestartet!");
+        public string GetGiveawayMessage(CultureInfo culture, GiveAwayValues inits, bool first)
+        {
+            string announce = first ? _discordClient.CultureHelper.GetOutputString("GiveawayAnnounce", culture) :
+                                      _discordClient.CultureHelper.GetOutputString("GiveawayAnnounceNext", culture);
+            return Environment.NewLine + announce + Environment.NewLine +
+                   string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayAnnounceWin", culture),
+                                 inits.CultureAward[culture.Name]) + Environment.NewLine +
+                   _discordClient.CultureHelper.GetOutputString("GiveawayAnnounceKeyword", culture) + " :tada:";
         }
 
         private static void AddEndTimeField(GiveAwayValues inits, EmbedBuilder embed, bool german)
@@ -182,17 +183,14 @@ namespace UltraGiveawayBot
                     {
                         // Wait one Minute to avoid problems with timespan
                         Thread.Sleep(60000);
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.WithDescription(inits.NextGiveawayMessageGerman);
-                        AddEndTimeField(inits, embed, true);
+                        foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
+                        {
+                            EmbedBuilder embed = new EmbedBuilder();
+                            embed.WithDescription(GetGiveawayMessage(culture, inits, false));
+                            AddEndTimeField(inits, embed, true);
 
-                        await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
-
-                        embed = new EmbedBuilder();
-                        embed.WithDescription(inits.NextGiveawayMessageEnglish);
-                        AddEndTimeField(inits, embed, false);
-
-                        await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
+                            await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
+                        }
 
                         inits.Timer = new Timer();
                         if (inits.GiveAwayDateTime != null)

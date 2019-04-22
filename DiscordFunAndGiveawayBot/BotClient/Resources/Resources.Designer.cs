@@ -70,6 +70,42 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dear Wusel friends, let&apos;s start a new giveaway!.
+        /// </summary>
+        public static string GiveawayAnnounce {
+            get {
+                return ResourceManager.GetString("GiveawayAnnounce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Just write the codeword `{0}` to participate..
+        /// </summary>
+        public static string GiveawayAnnounceKeyword {
+            get {
+                return ResourceManager.GetString("GiveawayAnnounceKeyword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Let&apos;s start the next giveaway!.
+        /// </summary>
+        public static string GiveawayAnnounceNext {
+            get {
+                return ResourceManager.GetString("GiveawayAnnounceNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can win: **{0}**.
+        /// </summary>
+        public static string GiveawayAnnounceWin {
+            get {
+                return ResourceManager.GetString("GiveawayAnnounceWin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The giveaway initiation was canceled!.
         /// </summary>
         public static string GiveawayCanceled {
@@ -93,6 +129,15 @@ namespace BotClient.Resources {
         public static string GiveawayEnterTime {
             get {
                 return ResourceManager.GetString("GiveawayEnterTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating the timer. Giveaway failed to initialize..
+        /// </summary>
+        public static string GiveawayErrorTimer {
+            get {
+                return ResourceManager.GetString("GiveawayErrorTimer", resourceCulture);
             }
         }
         
@@ -174,6 +219,15 @@ namespace BotClient.Resources {
         public static string GiveawayPriceExample {
             get {
                 return ResourceManager.GetString("GiveawayPriceExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Giveaway was started!.
+        /// </summary>
+        public static string GiveawayStarted {
+            get {
+                return ResourceManager.GetString("GiveawayStarted", resourceCulture);
             }
         }
         

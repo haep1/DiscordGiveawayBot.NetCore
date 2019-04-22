@@ -87,7 +87,7 @@ namespace BotClient
         {
             if (inits != null && !string.IsNullOrWhiteSpace(message))
             {
-                inits.AwardGerman = message;
+                inits.CultureAward.Add("de-DE", message);
                 inits.State = GiveAwayState.SetAwardEnglish;
 
                 await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayPriceEnglish") + Environment.NewLine +
@@ -104,7 +104,7 @@ namespace BotClient
         {
             if (inits != null && !string.IsNullOrWhiteSpace(message))
             {
-                inits.AwardEnglish = message;
+                inits.CultureAward.Add("en-US", message);
                 inits.State = GiveAwayState.Initialized;
 
                 await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayInitialized") + Environment.NewLine +
