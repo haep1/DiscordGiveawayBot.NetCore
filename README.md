@@ -37,3 +37,7 @@ Therefore open the **appsettings.json** file in the solution:
 ```
 At the moment, german and english languages are implemented.
 If you want to add further resources, you must a resouce-file at scr/DiscordFunAndGiveawayBot/BotClient/Resources.
+
+### Deployment
+As this designed as an ASP.NET Core app you can deploy it like a webpage - e.g. as AppService on Azure or simply in a docker container.
+Dockerfile is added, tested on Heroku: Works fine!
