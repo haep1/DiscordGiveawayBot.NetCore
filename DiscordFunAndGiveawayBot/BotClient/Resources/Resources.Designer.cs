@@ -79,11 +79,101 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To start now please enter the command: `start`!.
+        /// </summary>
+        public static string GiveawayEnterStart {
+            get {
+                return ResourceManager.GetString("GiveawayEnterStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please tell me first when the drawings should take place..
         /// </summary>
         public static string GiveawayEnterTime {
             get {
                 return ResourceManager.GetString("GiveawayEnterTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How often should the Giveaway take place?.
+        /// </summary>
+        public static string GiveawayHowOften {
+            get {
+                return ResourceManager.GetString("GiveawayHowOften", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Great, you finished initializing the giveaway!.
+        /// </summary>
+        public static string GiveawayInitialized {
+            get {
+                return ResourceManager.GetString("GiveawayInitialized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Very well, what&apos;s the key word to participate in the draw?.
+        /// </summary>
+        public static string GiveawayKeyword {
+            get {
+                return ResourceManager.GetString("GiveawayKeyword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now enter the keyword, e.g. `giveaway!`.
+        /// </summary>
+        public static string GiveawayKeywordExample {
+            get {
+                return ResourceManager.GetString("GiveawayKeywordExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter e.g. `2` to repeate the event twice.
+        /// </summary>
+        public static string GiveawayOftenExample {
+            get {
+                return ResourceManager.GetString("GiveawayOftenExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK, which price should be raffled (in german)?.
+        /// </summary>
+        public static string GiveawayPrice {
+            get {
+                return ResourceManager.GetString("GiveawayPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to And now please enter the price in english!.
+        /// </summary>
+        public static string GiveawayPriceEnglish {
+            get {
+                return ResourceManager.GetString("GiveawayPriceEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write e.g. `An awesome key code`!.
+        /// </summary>
+        public static string GiveawayPriceEnglishExample {
+            get {
+                return ResourceManager.GetString("GiveawayPriceEnglishExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For example, enter `Ein toller Key Code`!.
+        /// </summary>
+        public static string GiveawayPriceExample {
+            get {
+                return ResourceManager.GetString("GiveawayPriceExample", resourceCulture);
             }
         }
         
@@ -106,11 +196,74 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Of course, the next draw will take place at the following time: {0}.
+        /// </summary>
+        public static string GiveawayTimeResponse {
+            get {
+                return ResourceManager.GetString("GiveawayTimeResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please try again or enter `cancel` to cancel the giveaway..
+        /// </summary>
+        public static string GiveawayTryAgain {
+            get {
+                return ResourceManager.GetString("GiveawayTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yout can enter `cancel` all the time if you want to cancel the giveaway intiation!.
         /// </summary>
         public static string GiveawayTypeCancel {
             get {
                 return ResourceManager.GetString("GiveawayTypeCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Du hast keine korrekte Zeichenfolge eingegeben, z.B. `giveaway!`.
+        /// </summary>
+        public static string GiveawayWrongKeyword {
+            get {
+                return ResourceManager.GetString("GiveawayWrongKeyword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You did not enter a correct number, e.g. `2`.
+        /// </summary>
+        public static string GiveawayWrongOften {
+            get {
+                return ResourceManager.GetString("GiveawayWrongOften", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You did not enter a correct string, e.g. `Ein toller Key Code`.
+        /// </summary>
+        public static string GiveawayWrongPrice {
+            get {
+                return ResourceManager.GetString("GiveawayWrongPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You did not enter a correct string, e.g. `An awesome key code`.
+        /// </summary>
+        public static string GiveawayWrongPriceEnglish {
+            get {
+                return ResourceManager.GetString("GiveawayWrongPriceEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have not entered a correct time format, e.g. `20: 00`.
+        /// </summary>
+        public static string GiveawayWrongTime {
+            get {
+                return ResourceManager.GetString("GiveawayWrongTime", resourceCulture);
             }
         }
     }

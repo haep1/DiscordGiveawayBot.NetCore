@@ -123,8 +123,38 @@
   <data name="GiveawayCanceled" xml:space="preserve">
     <value>The giveaway initiation was canceled!</value>
   </data>
+  <data name="GiveawayEnterStart" xml:space="preserve">
+    <value>To start now please enter the command: `start`!</value>
+  </data>
   <data name="GiveawayEnterTime" xml:space="preserve">
     <value>Please tell me first when the drawings should take place.</value>
+  </data>
+  <data name="GiveawayHowOften" xml:space="preserve">
+    <value>How often should the Giveaway take place?</value>
+  </data>
+  <data name="GiveawayInitialized" xml:space="preserve">
+    <value>Great, you finished initializing the giveaway!</value>
+  </data>
+  <data name="GiveawayKeyword" xml:space="preserve">
+    <value>Very well, what's the key word to participate in the draw?</value>
+  </data>
+  <data name="GiveawayKeywordExample" xml:space="preserve">
+    <value>Now enter the keyword, e.g. `giveaway!`</value>
+  </data>
+  <data name="GiveawayOftenExample" xml:space="preserve">
+    <value>Enter e.g. `2` to repeate the event twice</value>
+  </data>
+  <data name="GiveawayPrice" xml:space="preserve">
+    <value>OK, which price should be raffled (in german)?</value>
+  </data>
+  <data name="GiveawayPriceEnglish" xml:space="preserve">
+    <value>And now please enter the price in english!</value>
+  </data>
+  <data name="GiveawayPriceEnglishExample" xml:space="preserve">
+    <value>Write e.g. `An awesome key code`!</value>
+  </data>
+  <data name="GiveawayPriceExample" xml:space="preserve">
+    <value>For example, enter `Ein toller Key Code`!</value>
   </data>
   <data name="GiveawayStartNew" xml:space="preserve">
     <value>Alright, let's start a new giveaway!</value>
@@ -132,7 +162,28 @@
   <data name="GiveawayTimeExample" xml:space="preserve">
     <value>Give either a time, e.g. `20:00` (for today at 20:00 o'clock), or date + time like e.g. `04/22/2019 20:00`</value>
   </data>
+  <data name="GiveawayTimeResponse" xml:space="preserve">
+    <value>Of course, the next draw will take place at the following time: {0}</value>
+  </data>
+  <data name="GiveawayTryAgain" xml:space="preserve">
+    <value>Please try again or enter `cancel` to cancel the giveaway.</value>
+  </data>
   <data name="GiveawayTypeCancel" xml:space="preserve">
     <value>Yout can enter `cancel` all the time if you want to cancel the giveaway intiation!</value>
+  </data>
+  <data name="GiveawayWrongKeyword" xml:space="preserve">
+    <value>Du hast keine korrekte Zeichenfolge eingegeben, z.B. `giveaway!`</value>
+  </data>
+  <data name="GiveawayWrongOften" xml:space="preserve">
+    <value>You did not enter a correct number, e.g. `2`</value>
+  </data>
+  <data name="GiveawayWrongPrice" xml:space="preserve">
+    <value>You did not enter a correct string, e.g. `Ein toller Key Code`</value>
+  </data>
+  <data name="GiveawayWrongPriceEnglish" xml:space="preserve">
+    <value>You did not enter a correct string, e.g. `An awesome key code`</value>
+  </data>
+  <data name="GiveawayWrongTime" xml:space="preserve">
+    <value>You have not entered a correct time format, e.g. `20: 00`</value>
   </data>
 </root>

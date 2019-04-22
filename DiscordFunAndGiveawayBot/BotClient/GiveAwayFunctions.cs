@@ -28,24 +28,26 @@ namespace BotClient
                 {
                     inits.GiveAwayTime = timespan;
                     inits.State = GiveAwayState.SetCountGiveAways;
-                    await ReplyAsync($"Alles klar, die nächste Ziehung findet zu folgendem Zeitpunkt statt: {timespan.ToString("hh\\:mm")}"
-                        + Environment.NewLine + "Wie oft soll das Giveaway stattfinden?" + Environment.NewLine +
-                        "`Gebe z.B. 2 ein um das Event zweimal zu wiederholen`", false, null);
+                    await ReplyAsync(string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayTimeResponse"), 
+                                                   timespan.ToString("hh\\:mm"))
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayHowOften") 
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayOftenExample"), false, null);
                     return;
                 }
                 else if (DateTime.TryParse(message, culture, styles, out DateTime dateTime))
                 {
                     inits.GiveAwayDateTime = dateTime;
                     inits.State = GiveAwayState.SetCountGiveAways;
-                    await ReplyAsync($"Alles klar, die nächste Ziehung findet zu folgendem Zeitpunkt statt: {dateTime.ToLongDateString()}"
-                        + Environment.NewLine + "Wie oft soll das Giveaway stattfinden?" + Environment.NewLine +
-                        "`Gebe z.B. 2 ein um das Event zweimal zu wiederholen`", false, null);
+                    await ReplyAsync(string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayTimeResponse"),
+                                                   dateTime.ToLongDateString())
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayHowOften")
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayOftenExample"), false, null);
                     return;
                 }
             }
 
-            await ReplyAsync($"Du hast kein korrektes Zeitformat eingegeben, z.B. `20:00`" + Environment.NewLine +
-                        "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
+            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongTime") + Environment.NewLine +
+                        _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
         }
 
         public async Task SetCountGiveAways(GiveAwayValues inits, string message)
@@ -54,13 +56,13 @@ namespace BotClient
             {
                 inits.CountGiveAways = count;
                 inits.State = GiveAwayState.SetCodeword;
-                await ReplyAsync($"Sehr gut, wie soll das Schlüsselwort lauten um an der Ziehung teilzunehmen?" + Environment.NewLine +
-                   "`Gebe jetzt das Schlüsselwort, z.B. 'giveaway!' ein.`", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayKeyword") + Environment.NewLine +
+                   _discordClient.CultureHelper.GetAdminString("GiveawayKeywordExample"), false, null);
             }
             else
             {
-                await ReplyAsync($"Du hast keine korrekte Zahl eingegeben, z.B. `2`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongOften") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
             }
         }
 
@@ -71,13 +73,13 @@ namespace BotClient
                 inits.Codeword = message;
                 inits.State = GiveAwayState.SetAwardGerman;
 
-                await ReplyAsync($"OK, welcher Preis soll verlost werden?!" + Environment.NewLine +
-                                  "Gib zum Beispiel `Ein toller Key Code` ein!", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayPrice") + Environment.NewLine +
+                                 _discordClient.CultureHelper.GetAdminString("GiveawayPriceExample"), false, null);
             }
             else
             {
-                await ReplyAsync($"Du hast keine korrekte Zeichenfolge eingegeben, z.B. `giveaway!`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongKeyword") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
             }
         }
 
@@ -88,13 +90,13 @@ namespace BotClient
                 inits.AwardGerman = message;
                 inits.State = GiveAwayState.SetAwardEnglish;
 
-                await ReplyAsync($"Und bitte jetzt den Preis auf english eingeben!" + Environment.NewLine +
-                                  "Schreibe zum Beispiel: `An awesome key code` ein!", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayPriceEnglish") + Environment.NewLine +
+                                  _discordClient.CultureHelper.GetAdminString("GiveawayPriceEnglishExample"), false, null);
             }
             else
             {
-                await ReplyAsync($"Du hast keine korrekte Zeichenfolge eingegeben, z.B. `Ein toller Key Code`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongPrice") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
             }
         }
 
@@ -105,13 +107,13 @@ namespace BotClient
                 inits.AwardEnglish = message;
                 inits.State = GiveAwayState.Initialized;
 
-                await ReplyAsync($"Super, der Giveaway wurde fertig initialisiert!" + Environment.NewLine +
-                                  "Um zu Starten gebe jetzt bitte den Befehl: `start` ein!", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayInitialized") + Environment.NewLine +
+                                  _discordClient.CultureHelper.GetAdminString("GiveawayEnterStart"), false, null);
             }
             else
             {
-                await ReplyAsync($"Du hast keine korrekte Zeichenfolge eingegeben, z.B. `An awesome key code`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongPriceEnglish") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayEnterStart"), false, null);
             }
         }
     }
