@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Test" xml:space="preserve">
-    <value>testen</value>
+  <data name="EnterMessageNow" xml:space="preserve">
+    <value>No problem, enter the message now!</value>
+  </data>
+  <data name="GiveawayCanceled" xml:space="preserve">
+    <value>The giveaway initiation was canceled!</value>
+  </data>
+  <data name="GiveawayEnterTime" xml:space="preserve">
+    <value>Please tell me first when the drawings should take place.</value>
+  </data>
+  <data name="GiveawayStartNew" xml:space="preserve">
+    <value>Alright, let's start a new giveaway!</value>
+  </data>
+  <data name="GiveawayTimeExample" xml:space="preserve">
+    <value>Give either a time, e.g. `20:00` (for today at 20:00 o'clock), or date + time like e.g. `04/22/2019 20:00`</value>
+  </data>
+  <data name="GiveawayTypeCancel" xml:space="preserve">
+    <value>Yout can enter `cancel` all the time if you want to cancel the giveaway intiation!</value>
   </data>
 </root>

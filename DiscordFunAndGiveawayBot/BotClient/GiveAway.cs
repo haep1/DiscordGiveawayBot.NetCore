@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using BotClient;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
@@ -20,9 +21,12 @@ namespace UltraGiveawayBot
         }
 
         private IDiscordClient _discordClient;
+        private GiveAwayFunctions _functions;
+
         public GiveAway(IDiscordClient client)
         {
             _discordClient = client;
+            _functions = new GiveAwayFunctions(client);
 
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
             _discordClient.Client.MessageReceived += Client_MessageReceived;
@@ -32,10 +36,10 @@ namespace UltraGiveawayBot
         public async Task InitGiveAway(IMessageChannel channel)
         {
             StopGiveawayInternal();
-            string message = "Alles klar, lass uns einen neuen Giveaway starten!" + Environment.NewLine +
-                             "Du kannst jederzeit `cancel` eingeben um das Giveaway abzubrechen" + Environment.NewLine +
-                             "Bitte sag mir als Erstes, wann die Ziehungen stattfinden sollen" + Environment.NewLine +
-                             "Gib entweder eine Zeit z.B. `20:00` ein (für heute um 20:00 Uhr), oder Datum + Zeit wie z.B. `22.04.2019 20:00`";
+            string message = _discordClient.CultureHelper.GetAdminString("GiveawayStartNew") + Environment.NewLine +
+                             _discordClient.CultureHelper.GetAdminString("GiveawayTypeCancel") + Environment.NewLine +
+                             _discordClient.CultureHelper.GetAdminString("GiveawayEnterTime") + Environment.NewLine +
+                             _discordClient.CultureHelper.GetAdminString("GiveawayTimeExample");
             GiveAwayValues values = new GiveAwayValues();
             values.ServerGuild = Context.Guild;
             values.GiveawayChannel = channel;
@@ -49,7 +53,6 @@ namespace UltraGiveawayBot
 
         private async Task Client_MessageReceived(Discord.WebSocket.SocketMessage arg)
         {
-            Console.WriteLine("GiveawayMessageReceived: " + arg.Content);
             GiveAwayValues inits = null;
             inits = GetCurrentInitValues();
             if (inits != null)
@@ -63,144 +66,43 @@ namespace UltraGiveawayBot
                     {
                         Console.WriteLine("Giveaway canceled");
                         _discordClient.Client.MessageReceived -= Client_MessageReceived;
+
+                        await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayCanceled"), false, null);
                     }
 
                     switch (inits.State)
                     {
                         case GiveAwayState.SetGiveAwayTime:
-                            await SetGiveAwayTime(userMessage.Content);
+                            await _functions.SetGiveAwayTime(inits, userMessage.Content);
                             break;
                         case GiveAwayState.SetCountGiveAways:
-                            await SetCountGiveAways(userMessage.Content);
+                            await _functions.SetCountGiveAways(inits, userMessage.Content);
                             break;
                         case GiveAwayState.SetCodeword:
-                            await SetCodeword(userMessage.Content);
+                            await _functions.SetCodeword(inits, userMessage.Content);
                             break;
                         case GiveAwayState.SetAwardGerman:
-                            await SetAwardGerman(userMessage.Content);
+                            await _functions.SetAwardGerman(inits, userMessage.Content);
                             break;
                         case GiveAwayState.SetAwardEnglish:
-                            await SetAwardEnglish(userMessage.Content);
+                            await _functions.SetAwardEnglish(inits, userMessage.Content);
                             break;
                         case GiveAwayState.Initialized:
-                            await StartGiveAwayTimer(userMessage.Content);
+                            await StartGiveAway(inits, userMessage.Content);
                             break;
                     }
                 }
             }
         }
+      
 
-        private async Task SetCodeword(string message)
-        {
-            GiveAwayValues inits = GetCurrentInitValues();
-            if (inits != null && !string.IsNullOrWhiteSpace(message))
-            {
-                inits.Codeword = message;
-                inits.State = GiveAwayState.SetAwardGerman;
-
-                await ReplyAsync($"OK, welcher Preis soll verlost werden?!" + Environment.NewLine +
-                                  "Gib zum Beispiel `Ein toller Key Code` ein!", false, null);
-            }
-            else
-            {
-                await ReplyAsync($"Du hast keine korrekte Zeichenfolge eingegeben, z.B. `giveaway!`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
-            }
-        }
-
-        private async Task SetAwardGerman(string message)
-        {
-            GiveAwayValues inits = GetCurrentInitValues();
-            if (inits != null && !string.IsNullOrWhiteSpace(message))
-            {
-                inits.AwardGerman = message;
-                inits.State = GiveAwayState.SetAwardEnglish;
-
-                await ReplyAsync($"Und bitte jetzt den Preis auf english eingeben!" + Environment.NewLine +
-                                  "Schreibe zum Beispiel: `An awesome key code` ein!", false, null);
-            }
-            else
-            {
-                await ReplyAsync($"Du hast keine korrekte Zeichenfolge eingegeben, z.B. `Ein toller Key Code`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
-            }
-        }
-
-        private async Task SetAwardEnglish(string message)
-        {
-            GiveAwayValues inits = GetCurrentInitValues();
-            if (inits != null && !string.IsNullOrWhiteSpace(message))
-            {
-                inits.AwardEnglish = message;
-                inits.State = GiveAwayState.Initialized;
-
-                await ReplyAsync($"Super, der Giveaway wurde fertig initialisiert!" + Environment.NewLine +
-                                  "Um zu Starten gebe jetzt bitte den Befehl: `start` ein!", false, null);
-            }
-            else
-            {
-                await ReplyAsync($"Du hast keine korrekte Zeichenfolge eingegeben, z.B. `An awesome key code`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
-            }
-        }
-
-        private async Task SetCountGiveAways(string message)
-        {
-            GiveAwayValues inits = GetCurrentInitValues();
-            if (inits != null && uint.TryParse(message, out uint count))
-            {
-                inits.CountGiveAways = count;
-                inits.State = GiveAwayState.SetCodeword;
-                await ReplyAsync($"Sehr gut, wie soll das Schlüsselwort lauten um an der Ziehung teilzunehmen?" + Environment.NewLine +
-                   "`Gebe jetzt das Schlüsselwort, z.B. 'giveaway!' ein.`", false, null);
-            }
-            else
-            {
-                await ReplyAsync($"Du hast keine korrekte Zahl eingegeben, z.B. `2`" + Environment.NewLine +
-                            "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
-            }
-        }
-
-        private async Task SetGiveAwayTime(string message)
-        {
-            GiveAwayValues inits = GetCurrentInitValues();
-            if (inits != null)
-            {
-                CultureInfo culture = CultureInfo.CreateSpecificCulture("de-DE");
-                DateTimeStyles styles = DateTimeStyles.None;
-
-                if (TimeSpan.TryParse(message, out TimeSpan timespan))
-                {
-                    inits.GiveAwayTime = timespan;
-                    inits.State = GiveAwayState.SetCountGiveAways;
-                    await ReplyAsync($"Alles klar, die nächste Ziehung findet zu folgendem Zeitpunkt statt: {timespan.ToString("hh\\:mm")}"
-                        + Environment.NewLine + "Wie oft soll das Giveaway stattfinden?" + Environment.NewLine +
-                        "`Gebe z.B. 2 ein um das Event zweimal zu wiederholen`", false, null);
-                    return;
-                }
-                else if (DateTime.TryParse(message, culture, styles, out DateTime dateTime))
-                {
-                    inits.GiveAwayDateTime = dateTime;
-                    inits.State = GiveAwayState.SetCountGiveAways;
-                    await ReplyAsync($"Alles klar, die nächste Ziehung findet zu folgendem Zeitpunkt statt: {dateTime.ToLongDateString()}"
-                        + Environment.NewLine + "Wie oft soll das Giveaway stattfinden?" + Environment.NewLine +
-                        "`Gebe z.B. 2 ein um das Event zweimal zu wiederholen`", false, null);
-                    return;
-                }
-            }
-
-            await ReplyAsync($"Du hast kein korrektes Zeitformat eingegeben, z.B. `20:00`" + Environment.NewLine +
-                        "Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen", false, null);
-        }
-
-        public async Task StartGiveAwayTimer(string message)
+        public async Task StartGiveAway(GiveAwayValues inits, string message)
         {
             if (!message.Equals("start"))
             {
                 return;
             }
 
-            GiveAwayValues inits = GetCurrentInitValues();
             if (inits == null)
             {
                 await ReplyAsync($"Giveaway wurde nicht initialisiert!");
@@ -335,7 +237,7 @@ namespace UltraGiveawayBot
             }
         }
 
-        private GiveAwayValues GetCurrentInitValues()
+        internal GiveAwayValues GetCurrentInitValues()
         {
             if (InitValues != null && Context != null)
             {

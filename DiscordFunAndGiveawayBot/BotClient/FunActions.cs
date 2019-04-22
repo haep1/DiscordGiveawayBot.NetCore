@@ -22,7 +22,7 @@ namespace UltraGiveawayBot
 
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
             _discordClient.Client.MessageReceived += Client_MessageReceived;
-            await ReplyAsync("Kein Problem, gib die Nachricht jetzt ein!");
+            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("EnterMessageNow"));
         }
 
         [Command("sendmessage"), Summary("Initialisiert ein neues Giveaway")]
@@ -32,7 +32,7 @@ namespace UltraGiveawayBot
 
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
             _discordClient.Client.MessageReceived += Client_MessageReceived;
-            await ReplyAsync("Kein Problem, gib die Nachricht jetzt ein!");
+            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("EnterMessageNow"));
         }
 
         private async Task Client_MessageReceived(Discord.WebSocket.SocketMessage arg)

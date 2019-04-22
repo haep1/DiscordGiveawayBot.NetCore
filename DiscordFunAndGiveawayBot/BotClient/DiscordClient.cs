@@ -69,7 +69,7 @@ namespace UltraGiveawayBot
             if (arg is SocketUserMessage userMessage)
             {
                 int argPos = 0;
-                if ((userMessage.HasCharPrefix('!', ref argPos) ||
+                if ((userMessage.HasCharPrefix('?', ref argPos) ||
                     userMessage.HasMentionPrefix(Client.CurrentUser, ref argPos)) &&
                     !userMessage.Author.IsBot)
                 {

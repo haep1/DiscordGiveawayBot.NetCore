@@ -61,11 +61,56 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to testen.
+        ///   Looks up a localized string similar to No problem, enter the message now!.
         /// </summary>
-        public static string Test {
+        public static string EnterMessageNow {
             get {
-                return ResourceManager.GetString("Test", resourceCulture);
+                return ResourceManager.GetString("EnterMessageNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The giveaway initiation was canceled!.
+        /// </summary>
+        public static string GiveawayCanceled {
+            get {
+                return ResourceManager.GetString("GiveawayCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please tell me first when the drawings should take place..
+        /// </summary>
+        public static string GiveawayEnterTime {
+            get {
+                return ResourceManager.GetString("GiveawayEnterTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alright, let&apos;s start a new giveaway!.
+        /// </summary>
+        public static string GiveawayStartNew {
+            get {
+                return ResourceManager.GetString("GiveawayStartNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Give either a time, e.g. `20:00` (for today at 20:00 o&apos;clock), or date + time like e.g. `04/22/2019 20:00`.
+        /// </summary>
+        public static string GiveawayTimeExample {
+            get {
+                return ResourceManager.GetString("GiveawayTimeExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yout can enter `cancel` all the time if you want to cancel the giveaway intiation!.
+        /// </summary>
+        public static string GiveawayTypeCancel {
+            get {
+                return ResourceManager.GetString("GiveawayTypeCancel", resourceCulture);
             }
         }
     }
