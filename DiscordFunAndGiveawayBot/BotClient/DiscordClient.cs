@@ -3,7 +3,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -69,7 +68,7 @@ namespace UltraGiveawayBot
             if (arg is SocketUserMessage userMessage)
             {
                 int argPos = 0;
-                if ((userMessage.HasCharPrefix('?', ref argPos) ||
+                if ((userMessage.HasCharPrefix('!', ref argPos) ||
                     userMessage.HasMentionPrefix(Client.CurrentUser, ref argPos)) &&
                     !userMessage.Author.IsBot)
                 {

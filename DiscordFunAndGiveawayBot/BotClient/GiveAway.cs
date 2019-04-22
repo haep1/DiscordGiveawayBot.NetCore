@@ -4,8 +4,10 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +34,7 @@ namespace UltraGiveawayBot
             _discordClient.Client.MessageReceived += Client_MessageReceived;
         }
 
-        [Command("initgiveaway"), Summary("Initialisiert ein neues Giveaway")]
+        [Command("initgiveaway"), Summary("Initializes a new giveaway")]
         public async Task InitGiveAway(IMessageChannel channel)
         {
             StopGiveawayInternal();
@@ -62,30 +64,29 @@ namespace UltraGiveawayBot
                     userMessage.Channel == inits.AdminChannel &&
                     userMessage.Author == inits.AdminUser)
                 {
-                    if (userMessage.Content.ToLower().Equals("cancel"))
+                    if (userMessage.Content.ToLower().Equals("!cancel"))
                     {
-                        Console.WriteLine("Giveaway canceled");
-                        _discordClient.Client.MessageReceived -= Client_MessageReceived;
-
-                        await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayCanceled"), false, null);
+                        return;
                     }
 
+                    string message = null;
                     switch (inits.State)
                     {
                         case GiveAwayState.SetGiveAwayTime:
-                            await _functions.SetGiveAwayTime(inits, userMessage.Content);
+                            message = _functions.SetGiveAwayTime(inits, userMessage.Content);
+                            await ReplyAsync(message);
                             break;
                         case GiveAwayState.SetCountGiveAways:
-                            await _functions.SetCountGiveAways(inits, userMessage.Content);
+                            message = _functions.SetCountGiveAways(inits, userMessage.Content);
+                            await ReplyAsync(message);
                             break;
                         case GiveAwayState.SetCodeword:
-                            await _functions.SetCodeword(inits, userMessage.Content);
+                            message = _functions.SetCodeword(inits, userMessage.Content);
+                            await ReplyAsync(message);
                             break;
-                        case GiveAwayState.SetAwardGerman:
-                            await _functions.SetAwardGerman(inits, userMessage.Content);
-                            break;
-                        case GiveAwayState.SetAwardEnglish:
-                            await _functions.SetAwardEnglish(inits, userMessage.Content);
+                        case GiveAwayState.SetAward:
+                            message = _functions.SetAward(inits, userMessage.Content);
+                            await ReplyAsync(message);
                             break;
                         case GiveAwayState.Initialized:
                             await StartGiveAway(inits, userMessage.Content);
@@ -94,7 +95,7 @@ namespace UltraGiveawayBot
                 }
             }
         }
-      
+
 
         public async Task StartGiveAway(GiveAwayValues inits, string message)
         {
@@ -120,7 +121,7 @@ namespace UltraGiveawayBot
             {
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.WithDescription(GetGiveawayMessage(culture, inits, true));
-                AddEndTimeField(inits, embed, true);
+                AddEndTimeField(inits, embed, culture);
 
                 await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
             }
@@ -135,34 +136,27 @@ namespace UltraGiveawayBot
             return Environment.NewLine + announce + Environment.NewLine +
                    string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayAnnounceWin", culture),
                                  inits.CultureAward[culture.Name]) + Environment.NewLine +
-                   _discordClient.CultureHelper.GetOutputString("GiveawayAnnounceKeyword", culture) + " :tada:";
+                   string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayAnnounceKeyword", culture),
+                                 inits.Codeword) + " :tada:";
         }
 
-        private static void AddEndTimeField(GiveAwayValues inits, EmbedBuilder embed, bool german)
+        private void AddEndTimeField(GiveAwayValues inits, EmbedBuilder embed, CultureInfo culture)
         {
-            if (german)
+            if (inits.GiveAwayTime != null)
             {
-                if (inits.GiveAwayTime != null)
-                {
-                    embed.AddField($"Die Teilnahme endet um {inits.GiveAwayTime.Value.ToString("hh\\:mm")} Uhr.", "Viel Erfolg!");
-                }
-                else if (inits.GiveAwayDateTime != null)
-                {
-                    CultureInfo culture = CultureInfo.CreateSpecificCulture("de-DE");
-                    embed.AddField($"Die Teilnahme endet am {inits.GiveAwayDateTime.Value.ToString("g", culture)}.", "Viel Erfolg!");
-                }
+                DateTime dt = new DateTime(1999, 1, 1, inits.GiveAwayTime.Value.Hours, inits.GiveAwayTime.Value.Minutes, 0);
+                string time = dt.ToString("t", culture);
+
+                embed.AddField(string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayParticipEndTime", culture),
+                               time), _discordClient.CultureHelper.GetOutputString("GoodLuck", culture));
             }
-            else
+            else if (inits.GiveAwayDateTime != null)
             {
-                if (inits.GiveAwayTime != null)
-                {
-                    embed.AddField($"The participation ends at {inits.GiveAwayTime.Value.ToString("hh\\:mm")}.", "Good luck!");
-                }
-                else
-                {
-                    CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
-                    embed.AddField($"The participation ends at {inits.GiveAwayDateTime.Value.ToString("g", culture)}.", "Good luck!");
-                }
+                DateTime dt = inits.GiveAwayDateTime.Value;
+                string date = dt.ToString("g", culture);
+
+                embed.AddField(string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayParticipEndDate", culture),
+                               date), _discordClient.CultureHelper.GetOutputString("GoodLuck", culture));
             }
         }
 
@@ -175,7 +169,8 @@ namespace UltraGiveawayBot
                 inits.CountGiveAways--;
                 if (inits.CountGiveAways == 0)
                 {
-                    await StopGiveaway();
+                    StopGiveawayInternal();
+                    _discordClient.Client.MessageReceived -= Client_MessageReceived;
                 }
                 else
                 {
@@ -187,7 +182,7 @@ namespace UltraGiveawayBot
                         {
                             EmbedBuilder embed = new EmbedBuilder();
                             embed.WithDescription(GetGiveawayMessage(culture, inits, false));
-                            AddEndTimeField(inits, embed, true);
+                            AddEndTimeField(inits, embed, culture);
 
                             await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
                         }
@@ -205,24 +200,25 @@ namespace UltraGiveawayBot
                     }
                     catch (Exception ex)
                     {
-                        await ReplyAsync("Fehler bei Wiederholungsankündigung: " + ex.Message);
+                        await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayErrorRepeat") + ex.Message);
                     }
                 }
             }
         }
 
-        [Command("getwinner"), Summary("Gibt die Gewinner eines Channels aus")]
+        [Command("getwinner"), Summary("Shouts out the winners of a channel")]
         public async Task GetWinners([Summary("Name des Channels")] IMessageChannel channel, string codeword)
         {
             await ShoutOutTheWinners(channel, codeword);
         }
 
-        [Command("stopgiveaway"), Summary("Stoppt das Giveaway")]
-        public async Task StopGiveaway()
+        [Command("cancel"), Summary("Cancels the Giveaway")]
+        public async Task CancelGiveaway()
         {
             StopGiveawayInternal();
+            Console.WriteLine("Giveaway stopped");
 
-            await ReplyAsync("Giveaway wurde gestoppt!");
+            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayStopped"));
         }
 
         private void StopGiveawayInternal()
@@ -265,34 +261,25 @@ namespace UltraGiveawayBot
                 latestMessages = messages;
             }
 
-            var users = latestMessages.Where(m => m.Content.ToLower().Contains(codeword.ToLower()))
+            List<IUser> users = latestMessages.Where(m => m.Content.ToLower().Contains(codeword.ToLower()))
                                       .Select(y => y.Author).Distinct().Where(x => !x.IsBot).ToList();
             List<IUser> winners = GetWinners(1, users);
 
-
-
-            string germanMessage = GiveAwayValues.WinMessageGerman + Environment.NewLine;
-
-            int winCount = 1;
-            foreach (IUser winner in winners)
+            
+            foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
             {
-                germanMessage += $":trophy: {winner.Mention} :trophy:" + Environment.NewLine;
-                winCount++;
+                string message = _discordClient.CultureHelper.GetOutputString("GiveawayWinner", culture) + Environment.NewLine;
+                
+                foreach (IUser winner in winners)
+                {
+                    message += $":trophy: {winner.Mention} :trophy:" + Environment.NewLine;
+                }
+                message += _discordClient.CultureHelper.GetOutputString("GiveawayCongrats", culture) + Environment.NewLine;
+
+                await channel.SendMessageAsync(message);
             }
-            germanMessage += $"Herzlichen Glückwunsch!" + Environment.NewLine;
 
-            await channel.SendMessageAsync(germanMessage);
-
-            string englishMessage = GiveAwayValues.WinMessageEnglish + Environment.NewLine;
-            foreach (IUser winner in winners)
-            {
-                englishMessage += $":trophy: {winner.Mention} :trophy:" + Environment.NewLine;
-            }
-            englishMessage += $"Congratulations!";
-
-            await channel.SendMessageAsync(englishMessage);
-
-            await ReplyAsync("Der Gewinner wurde bekannt gegeben!");
+            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWinnerAnnounced"));
         }
 
         public List<IUser> GetWinners(uint winnersCount, List<IUser> authors)

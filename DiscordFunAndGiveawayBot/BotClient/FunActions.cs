@@ -14,7 +14,7 @@ namespace UltraGiveawayBot
 
         private static IMessageChannel _channel;
         private static IUser _user;
-        [Command("sendmessage"), Summary("Initialisiert ein neues Giveaway")]
+        [Command("sendmessage"), Summary("Initializes a new MessageSend")]
         public async Task SendMessage(IMessageChannel channel, IUser user)
         {
             _channel = channel;
@@ -25,7 +25,7 @@ namespace UltraGiveawayBot
             await ReplyAsync(_discordClient.CultureHelper.GetAdminString("EnterMessageNow"));
         }
 
-        [Command("sendmessage"), Summary("Initialisiert ein neues Giveaway")]
+        [Command("sendmessage"), Summary("Initializes a new MessageSend")]
         public async Task SendMessage2(IMessageChannel channel)
         {
             _channel = channel;

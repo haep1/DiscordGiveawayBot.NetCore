@@ -11,8 +11,7 @@ namespace UltraGiveawayBot
         SetCountGiveAways,
         SetCountWinners,
         SetCodeword,
-        SetAwardGerman,
-        SetAwardEnglish,
+        SetAward,
         Initialized
     }
 }

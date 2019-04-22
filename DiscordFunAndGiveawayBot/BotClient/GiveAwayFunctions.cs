@@ -1,14 +1,10 @@
-﻿using Discord.Commands;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
 using UltraGiveawayBot;
 
 namespace BotClient
 {
-    class GiveAwayFunctions : ModuleBase
+    class GiveAwayFunctions
     {
         private IDiscordClient _discordClient;
 
@@ -17,8 +13,9 @@ namespace BotClient
             _discordClient = discordClient;
         }
 
-        public async Task SetGiveAwayTime(GiveAwayValues inits, string message)
+        public string SetGiveAwayTime(GiveAwayValues inits, string message)
         {
+            string result = null;
             if (inits != null)
             {
                 CultureInfo culture = _discordClient.CultureHelper.AdminCulture;
@@ -28,93 +25,104 @@ namespace BotClient
                 {
                     inits.GiveAwayTime = timespan;
                     inits.State = GiveAwayState.SetCountGiveAways;
-                    await ReplyAsync(string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayTimeResponse"), 
+                    result = string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayTimeResponse"),
                                                    timespan.ToString("hh\\:mm"))
-                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayHowOften") 
-                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayOftenExample"), false, null);
-                    return;
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayHowOften")
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayOftenExample");
+                    return result;
                 }
                 else if (DateTime.TryParse(message, culture, styles, out DateTime dateTime))
                 {
                     inits.GiveAwayDateTime = dateTime;
                     inits.State = GiveAwayState.SetCountGiveAways;
-                    await ReplyAsync(string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayTimeResponse"),
+                    result = string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayTimeResponse"),
                                                    dateTime.ToLongDateString())
                         + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayHowOften")
-                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayOftenExample"), false, null);
-                    return;
+                        + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayOftenExample");
+                    return result;
                 }
             }
 
-            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongTime") + Environment.NewLine +
-                        _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
+            result = _discordClient.CultureHelper.GetAdminString("GiveawayWrongTime") + Environment.NewLine +
+                        _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain");
+            return result;
         }
 
-        public async Task SetCountGiveAways(GiveAwayValues inits, string message)
+        public string SetCountGiveAways(GiveAwayValues inits, string message)
         {
+            string result = null;
             if (inits != null && uint.TryParse(message, out uint count))
             {
                 inits.CountGiveAways = count;
                 inits.State = GiveAwayState.SetCodeword;
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayKeyword") + Environment.NewLine +
-                   _discordClient.CultureHelper.GetAdminString("GiveawayKeywordExample"), false, null);
+                result = _discordClient.CultureHelper.GetAdminString("GiveawayKeyword") + Environment.NewLine +
+                   _discordClient.CultureHelper.GetAdminString("GiveawayKeywordExample");
             }
             else
             {
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongOften") + Environment.NewLine +
-                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
+                result = _discordClient.CultureHelper.GetAdminString("GiveawayWrongOften") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain");
             }
+            return result;
         }
 
-        public async Task SetCodeword(GiveAwayValues inits, string message)
+        public string SetCodeword(GiveAwayValues inits, string message)
         {
+            string result = null;
             if (inits != null && !string.IsNullOrWhiteSpace(message))
             {
                 inits.Codeword = message;
-                inits.State = GiveAwayState.SetAwardGerman;
+                inits.State = GiveAwayState.SetAward;
 
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayPrice") + Environment.NewLine +
-                                 _discordClient.CultureHelper.GetAdminString("GiveawayPriceExample"), false, null);
+                result = SetAwardQuestion(inits);
             }
             else
             {
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongKeyword") + Environment.NewLine +
-                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
+                result = _discordClient.CultureHelper.GetAdminString("GiveawayWrongKeyword") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain");
             }
+            return result;
         }
 
-        public async Task SetAwardGerman(GiveAwayValues inits, string message)
+        public string SetAwardQuestion(GiveAwayValues inits)
         {
-            if (inits != null && !string.IsNullOrWhiteSpace(message))
+            string result = null;
+            foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
             {
-                inits.CultureAward.Add("de-DE", message);
-                inits.State = GiveAwayState.SetAwardEnglish;
+                if (!inits.CultureAward.ContainsKey(culture.Name))
+                {
+                    inits.CurrentAwardLanguage = culture.Name;
+                    result = _discordClient.CultureHelper.GetAdminString("GiveawayPrice") + Environment.NewLine +
+                             string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayPriceExample"),
+                             culture.DisplayName, _discordClient.CultureHelper.GetOutputString("GiveawayExamplePrice", culture));
+                }
+            }
 
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayPriceEnglish") + Environment.NewLine +
-                                  _discordClient.CultureHelper.GetAdminString("GiveawayPriceEnglishExample"), false, null);
-            }
-            else
-            {
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongPrice") + Environment.NewLine +
-                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain"), false, null);
-            }
+            return result;
         }
 
-        public async Task SetAwardEnglish(GiveAwayValues inits, string message)
+        public string SetAward(GiveAwayValues inits, string message)
         {
+            string result = null;
             if (inits != null && !string.IsNullOrWhiteSpace(message))
             {
-                inits.CultureAward.Add("en-US", message);
-                inits.State = GiveAwayState.Initialized;
+                inits.CultureAward.Add(inits.CurrentAwardLanguage, message);
 
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayInitialized") + Environment.NewLine +
-                                  _discordClient.CultureHelper.GetAdminString("GiveawayEnterStart"), false, null);
+                result = SetAwardQuestion(inits);
+                if (result == null)
+                {
+                    inits.State = GiveAwayState.Initialized;
+
+                    result = _discordClient.CultureHelper.GetAdminString("GiveawayInitialized") + Environment.NewLine +
+                                       _discordClient.CultureHelper.GetAdminString("GiveawayEnterStart");
+                }
             }
             else
             {
-                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWrongPriceEnglish") + Environment.NewLine +
-                            _discordClient.CultureHelper.GetAdminString("GiveawayEnterStart"), false, null);
+                result = _discordClient.CultureHelper.GetAdminString("GiveawayWrongPrice") + Environment.NewLine +
+                            _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain");
             }
+            return result;
         }
     }
 }

@@ -1,13 +1,8 @@
-﻿using BotClient;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System.Globalization;
 using UltraGiveawayBot;
 
 namespace DiscordFunAndGiveawayBot

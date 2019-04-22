@@ -121,7 +121,7 @@
     <value>Kein Problem, gib die Nachricht jetzt ein!</value>
   </data>
   <data name="GiveawayAnnounce" xml:space="preserve">
-    <value>Liebe Wusel Freunde, lasst uns ein neues Giveaway starten!</value>
+    <value>Liebe Freunde, lasst uns ein neues Giveaway starten!</value>
   </data>
   <data name="GiveawayAnnounceKeyword" xml:space="preserve">
     <value>Schreibt einfach `{0}` um teilzunehmen.</value>
@@ -132,8 +132,8 @@
   <data name="GiveawayAnnounceWin" xml:space="preserve">
     <value>Zu gewinnen gibt es: **{0}**</value>
   </data>
-  <data name="GiveawayCanceled" xml:space="preserve">
-    <value>Die Giveaway Einrichtung wurde abgebrochen!</value>
+  <data name="GiveawayCongrats" xml:space="preserve">
+    <value>Herzlichen Glückwunsch!</value>
   </data>
   <data name="GiveawayEnterStart" xml:space="preserve">
     <value>Um zu Starten gebe jetzt bitte den Befehl: `start` ein!</value>
@@ -141,8 +141,14 @@
   <data name="GiveawayEnterTime" xml:space="preserve">
     <value>Bitte sag mir als Erstes, wann die Ziehungen stattfinden sollen.</value>
   </data>
+  <data name="GiveawayErrorRepeat" xml:space="preserve">
+    <value>Fehler bei Wiederholungsankündigung: </value>
+  </data>
   <data name="GiveawayErrorTimer" xml:space="preserve">
     <value>Fehler bei der Erstellung des Timers. Giveaway konnte nicht initialisiert werden.</value>
+  </data>
+  <data name="GiveawayExamplePrice" xml:space="preserve">
+    <value>`Ein toller Key Code`</value>
   </data>
   <data name="GiveawayHowOften" xml:space="preserve">
     <value>Wie oft soll das Giveaway stattfinden?</value>
@@ -159,23 +165,26 @@
   <data name="GiveawayOftenExample" xml:space="preserve">
     <value>Gebe z.B. `2` ein um das Event zweimal zu wiederholen</value>
   </data>
+  <data name="GiveawayParticipEndDate" xml:space="preserve">
+    <value>Die Teilnahme endet am {0}.</value>
+  </data>
+  <data name="GiveawayParticipEndTime" xml:space="preserve">
+    <value>Die Teilnahme endet um {0} Uhr.</value>
+  </data>
   <data name="GiveawayPrice" xml:space="preserve">
     <value>OK, welcher Preis soll verlost werden?</value>
   </data>
-  <data name="GiveawayPriceEnglish" xml:space="preserve">
-    <value>Und bitte jetzt den Preis auf english eingeben!</value>
-  </data>
-  <data name="GiveawayPriceEnglishExample" xml:space="preserve">
-    <value>Schreibe zum Beispiel: `An awesome key code`!</value>
-  </data>
   <data name="GiveawayPriceExample" xml:space="preserve">
-    <value>Gib zum Beispiel `Ein toller Key Code` ein!</value>
+    <value>Gib den Preis in folgender Sprache ein: {0} - z.B. {1}</value>
   </data>
   <data name="GiveawayStarted" xml:space="preserve">
     <value>Giveaway wurde gestartet!</value>
   </data>
   <data name="GiveawayStartNew" xml:space="preserve">
     <value>Alles klar, lass uns einen neuen Giveaway starten!</value>
+  </data>
+  <data name="GiveawayStopped" xml:space="preserve">
+    <value>Giveaway wurde abgebrochen!</value>
   </data>
   <data name="GiveawayTimeExample" xml:space="preserve">
     <value>Gib entweder eine Zeit z.B. `20:00` ein (für heute um 20:00 Uhr), oder Datum + Zeit wie z.B. `22.04.2019 20:00`</value>
@@ -184,10 +193,16 @@
     <value>Alles klar, die nächste Ziehung findet zu folgendem Zeitpunkt statt: {0}</value>
   </data>
   <data name="GiveawayTryAgain" xml:space="preserve">
-    <value>Bitte probiere es erneut oder gebe `cancel` ein um das Giveaway abzubrechen.</value>
+    <value>Bitte probiere es erneut oder gebe `!cancel` ein um das Giveaway abzubrechen.</value>
   </data>
   <data name="GiveawayTypeCancel" xml:space="preserve">
-    <value>Du kannst jederzeit `cancel` eingeben um die Giveaway Einrichtung abzubrechen.</value>
+    <value>Du kannst jederzeit `!cancel` eingeben um die Giveaway Einrichtung abzubrechen.</value>
+  </data>
+  <data name="GiveawayWinner" xml:space="preserve">
+    <value>Liebe Freunde, wir haben einen Gewinner:</value>
+  </data>
+  <data name="GiveawayWinnerAnnounced" xml:space="preserve">
+    <value>Der Gewinner wurde bekannt gegeben!</value>
   </data>
   <data name="GiveawayWrongKeyword" xml:space="preserve">
     <value>You did not enter a correct string, e.g. `giveaway!`</value>
@@ -196,12 +211,12 @@
     <value>Du hast keine korrekte Zahl eingegeben, z.B. `2`</value>
   </data>
   <data name="GiveawayWrongPrice" xml:space="preserve">
-    <value>Du hast keine korrekte Zeichenfolge eingegeben, z.B. `Ein toller Key Code`</value>
-  </data>
-  <data name="GiveawayWrongPriceEnglish" xml:space="preserve">
-    <value>Du hast keine korrekte Zeichenfolge eingegeben, z.B. `An awesome key code`</value>
+    <value>Du hast keine korrekte Zeichenfolge eingegeben, z.B. {0}</value>
   </data>
   <data name="GiveawayWrongTime" xml:space="preserve">
     <value>Du hast kein korrektes Zeitformat eingegeben, z.B. `20:00`</value>
+  </data>
+  <data name="GoodLuck" xml:space="preserve">
+    <value>Viel Erfolg!</value>
   </data>
 </root>

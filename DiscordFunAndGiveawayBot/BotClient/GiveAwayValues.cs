@@ -1,7 +1,6 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace UltraGiveawayBot
 {
@@ -13,26 +12,16 @@ namespace UltraGiveawayBot
         public uint CountGiveAways { get; set; }
         public uint CountWinners { get { return 1; } }
         public string Codeword { get; set; }
-        //public List<IUser> Winners { get; set; }
+
         public IMessageChannel GiveawayChannel { get; set; }
         public IMessageChannel AdminChannel { get; set; }
         public IUser AdminUser { get; set; }
         public Dictionary<string, string> CultureAward { get; set; } = new Dictionary<string, string>();
-        public static string WinMessageGerman { get
-            {
-                return "Liebe Wusel Freunde, wir haben einen Gewinner:";
-            }
-        }
-        public static string WinMessageEnglish
-        {
-            get
-            {
-                return "Dear Wusel friends, we got a winner:";
-            }
-        }
 
         public GiveAwayState State { get; set; }
         public Timer Timer { get; set; }
+
+        public string CurrentAwardLanguage { get; set; }
 
         public void Reset()
         {
@@ -44,6 +33,7 @@ namespace UltraGiveawayBot
             AdminChannel = null;
             AdminUser = null;
             CultureAward = new Dictionary<string, string>();
+            CurrentAwardLanguage = null;
             State = GiveAwayState.None;
             if (Timer != null)
             {
