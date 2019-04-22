@@ -1,7 +1,7 @@
 .dockerignore
 .env
 .git
-.gitignore
+.gisdfsdtignore
 .vs
 .vscode
 */bin
