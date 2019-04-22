@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BotClient;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Globalization;
 using UltraGiveawayBot;
 
 namespace DiscordFunAndGiveawayBot
@@ -40,8 +45,7 @@ namespace DiscordFunAndGiveawayBot
 
                 if (!discordClient.IsRunnging)
                 {
-                    AppSettings config = Configuration.GetSection("AppSettings").Get<AppSettings>();
-                    await discordClient.RunBot(config.DiscordToken, app.ApplicationServices);
+                    await discordClient.RunBot(app.ApplicationServices, Configuration);
                 }
             });
         }

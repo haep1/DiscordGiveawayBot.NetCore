@@ -1,20 +1,28 @@
-﻿using Discord.Commands;
+﻿using BotClient;
+using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace UltraGiveawayBot
 {
     public class DiscordClient : IDiscordClient
     {
         private CommandService Commands { get; set; }
-        public DiscordSocketClient Client { get; set; }
         private IServiceProvider Services { get; set; }
+
+        public CultureHelper CultureHelper { get; set; }        
+        public DiscordSocketClient Client { get; set; }
+        
 
         public bool IsRunnging { get; private set; }
 
-        public async Task RunBot(string token, IServiceProvider provider)
+        public async Task RunBot(IServiceProvider provider, IConfiguration configuration)
         {
             IsRunnging = true;
             Client = new DiscordSocketClient(new DiscordSocketConfig
@@ -30,6 +38,11 @@ namespace UltraGiveawayBot
             });
 
             Services = provider;
+            AppSettings appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
+            var outputCultures = appSettings.OutputCultures.Select(culture => new CultureInfo(culture)).ToList();
+            var adminCulture = new CultureInfo(appSettings.AdminCulture);
+
+            CultureHelper = new CultureHelper(outputCultures, adminCulture);
 
             await Commands.AddModulesAsync(Assembly.GetExecutingAssembly(), Services);
 
@@ -37,7 +50,7 @@ namespace UltraGiveawayBot
             Client.MessageReceived += Client_MessageReceived;
             Client.Log += Client_Log;
 
-            await Client.LoginAsync(Discord.TokenType.Bot, token);
+            await Client.LoginAsync(Discord.TokenType.Bot, appSettings.DiscordToken);
             await Client.StartAsync();
         }
 
