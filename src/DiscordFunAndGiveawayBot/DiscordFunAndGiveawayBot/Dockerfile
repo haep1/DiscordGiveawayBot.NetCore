@@ -4,7 +4,7 @@ COPY . .
 RUN dotnet restore
 RUN dotnet publish -c Release
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-stretch-slim AS base
+FROM microsoft/aspnetcore
 WORKDIR /app
 EXPOSE 80
 
