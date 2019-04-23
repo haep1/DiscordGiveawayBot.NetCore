@@ -3,4 +3,5 @@ WORKDIR /app
 EXPOSE 80
 
 COPY . .
+FROM microsoft/aspnetcore-build AS builder
 CMD ASPNETCORE_URLS=http://*:$PORT dotnet DiscordFunAndGiveawayBot.dll
