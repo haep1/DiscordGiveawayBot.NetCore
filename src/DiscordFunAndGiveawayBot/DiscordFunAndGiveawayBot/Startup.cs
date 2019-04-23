@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using UltraGiveawayBot;
 
 namespace DiscordFunAndGiveawayBot
@@ -40,7 +41,9 @@ namespace DiscordFunAndGiveawayBot
 
                 if (!discordClient.IsRunning)
                 {
-                    await discordClient.RunBot(app.ApplicationServices, Configuration);
+                    // You can add the token as an environment variable - e.g. as a Config Var in Heroku
+                    string discordToken = Environment.GetEnvironmentVariable("DiscordToken");
+                    await discordClient.RunBot(app.ApplicationServices, Configuration, discordToken);
                 }
             });
         }

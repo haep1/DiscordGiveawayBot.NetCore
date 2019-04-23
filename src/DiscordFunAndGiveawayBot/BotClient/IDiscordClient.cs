@@ -12,6 +12,6 @@ namespace UltraGiveawayBot
         DiscordSocketClient Client { get; set; }
         bool IsRunning { get; }
 
-        Task RunBot(IServiceProvider provider, IConfiguration configuration);
+        Task RunBot(IServiceProvider provider, IConfiguration configuration, string discordToken = null);
     }
 }

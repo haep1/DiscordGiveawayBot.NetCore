@@ -21,7 +21,7 @@ namespace UltraGiveawayBot
 
         public bool IsRunning { get; private set; }
 
-        public async Task RunBot(IServiceProvider provider, IConfiguration configuration)
+        public async Task RunBot(IServiceProvider provider, IConfiguration configuration, string discordToken = null)
         {
             IsRunning = true;
             Client = new DiscordSocketClient(new DiscordSocketConfig
@@ -53,8 +53,10 @@ namespace UltraGiveawayBot
             Client.MessageReceived += Client_MessageReceived;
             Client.Log += Client_Log;
 
+            discordToken = discordToken ?? appSettings.DiscordToken;
+
             // Login and start
-            await Client.LoginAsync(Discord.TokenType.Bot, appSettings.DiscordToken);
+            await Client.LoginAsync(Discord.TokenType.Bot, discordToken);
             await Client.StartAsync();
         }
 
