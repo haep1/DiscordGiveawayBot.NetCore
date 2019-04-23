@@ -28,6 +28,12 @@ The bot supports following features at the moment:
    * Set how often the raffle should repeat (repeates every day at the same time if you want)
    * Set the codeword, that users must enter to participate
    * Set the name of the prize in all languages you want to support
+   
+### Commands
+`!sendmessage #channel` - Bot sends a message to that channel
+`!sendmessage #channel @person` - Bot sends a message tot that channel and mentions the person
+`!initgiveaway #channel` - Inits a new giveaway. All further steps are explained by the giveaway workflow
+`!cancel` - Cancel the giveaway initiation
 
 
 ## Dev information
