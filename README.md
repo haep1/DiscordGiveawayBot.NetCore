@@ -20,13 +20,14 @@ The bot supports following features at the moment:
 
 ### Fun actions
 * Let the bot post an user defined message in a specific channel
+* Post messages that mention a specific person
 
 ### Giveaways
 * Init new giveaways with a lot of settings:
    * Set the time of the current day OR set a specific datetime
    * Set how often the raffle should repeat (repeates every day at the same time if you want)
    * Set the codeword, that users must enter to participate
-   * Set the price in all languages you want to support
+   * Set the name of the prize in all languages you want to support
 
 
 ## Dev information
