@@ -38,7 +38,7 @@ namespace DiscordFunAndGiveawayBot
             {
                 await context.Response.WriteAsync("DiscordFunAndGiveawayBot is alive!");
 
-                if (!discordClient.IsRunnging)
+                if (!discordClient.IsRunning)
                 {
                     await discordClient.RunBot(app.ApplicationServices, Configuration);
                 }

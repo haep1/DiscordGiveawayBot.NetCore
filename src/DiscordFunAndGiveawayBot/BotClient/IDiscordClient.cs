@@ -10,7 +10,7 @@ namespace UltraGiveawayBot
     {
         CultureHelper CultureHelper { get; set; }
         DiscordSocketClient Client { get; set; }
-        bool IsRunnging { get; }
+        bool IsRunning { get; }
 
         Task RunBot(IServiceProvider provider, IConfiguration configuration);
     }
