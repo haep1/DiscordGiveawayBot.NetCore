@@ -6,6 +6,11 @@ The bot owns some different features, the main features is to organize giveaway-
 The difference to other Discord Bots is, that you can run a giveaway for a longer time - e.g. for some days. 
 People can participate by entering a predefined keyword.
 
+
+> **You can add the Bot to your Discord server using this URL:** <br/>
+> https://discordapp.com/api/oauth2/authorize?client_id=569931884495110144&permissions=68608&scope=bot
+
+
 ## Features
 The bot supports following features at the moment:
 
@@ -15,13 +20,14 @@ The bot supports following features at the moment:
 
 ### Fun actions
 * Let the bot post an user defined message in a specific channel
+* Post messages that mention a specific person
 
 ### Giveaways
 * Init new giveaways with a lot of settings:
    * Set the time of the current day OR set a specific datetime
    * Set how often the raffle should repeat (repeates every day at the same time if you want)
    * Set the codeword, that users must enter to participate
-   * Set the price in all languages you want to support
+   * Set the name of the prize in all languages you want to support
 
 
 ## Dev information
