@@ -1,10 +1,10 @@
-FROM microsoft/aspnetcore-build AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /source
 COPY . .
 RUN dotnet restore
 RUN dotnet publish -c Release
 
-FROM microsoft/aspnetcore
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
 EXPOSE 80
 
