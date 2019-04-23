@@ -30,9 +30,9 @@ The bot supports following features at the moment:
    * Set the name of the prize in all languages you want to support
    
 ### Commands
-`!sendmessage #channel` - Bot sends a message to that channel
-`!sendmessage #channel @person` - Bot sends a message tot that channel and mentions the person
-`!initgiveaway #channel` - Inits a new giveaway. All further steps are explained by the giveaway workflow
+`!sendmessage #channel` - Bot sends a message to that channel<br/>
+`!sendmessage #channel @person` - Bot sends a message tot that channel and mentions the person<br/>
+`!initgiveaway #channel` - Inits a new giveaway. All further steps are explained by the giveaway workflow<br/>
 `!cancel` - Cancel the giveaway initiation
 
 
