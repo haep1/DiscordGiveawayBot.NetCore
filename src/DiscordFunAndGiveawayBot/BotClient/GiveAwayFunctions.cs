@@ -92,9 +92,9 @@ namespace BotClient
                 if (!inits.CultureAward.ContainsKey(culture.Name))
                 {
                     inits.CurrentAwardLanguage = culture.Name;
-                    result = _discordClient.CultureHelper.GetAdminString("GiveawayPrice") + Environment.NewLine +
-                             string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayPriceExample"),
-                             culture.DisplayName, _discordClient.CultureHelper.GetOutputString("GiveawayExamplePrice", culture));
+                    result = _discordClient.CultureHelper.GetAdminString("GiveawayPrize") + Environment.NewLine +
+                             string.Format(_discordClient.CultureHelper.GetAdminString("GiveawayPrizeExample"),
+                             culture.DisplayName, _discordClient.CultureHelper.GetOutputString("GiveawayExamplePrize", culture));
                 }
             }
 
@@ -119,7 +119,7 @@ namespace BotClient
             }
             else
             {
-                result = _discordClient.CultureHelper.GetAdminString("GiveawayWrongPrice") + Environment.NewLine +
+                result = _discordClient.CultureHelper.GetAdminString("GiveawayWrongPrize") + Environment.NewLine +
                             _discordClient.CultureHelper.GetAdminString("GiveawayTryAgain");
             }
             return result;

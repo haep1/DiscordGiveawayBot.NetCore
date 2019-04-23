@@ -147,7 +147,7 @@
   <data name="GiveawayErrorTimer" xml:space="preserve">
     <value>Error creating the timer. Giveaway failed to initialize.</value>
   </data>
-  <data name="GiveawayExamplePrice" xml:space="preserve">
+  <data name="GiveawayExamplePrize" xml:space="preserve">
     <value>`An awesome key code`</value>
   </data>
   <data name="GiveawayHowOften" xml:space="preserve">
@@ -171,11 +171,11 @@
   <data name="GiveawayParticipEndTime" xml:space="preserve">
     <value>The participation ends at {0}.</value>
   </data>
-  <data name="GiveawayPrice" xml:space="preserve">
-    <value>OK, which price should be raffled?</value>
+  <data name="GiveawayPrize" xml:space="preserve">
+    <value>OK, which prize should be raffled?</value>
   </data>
-  <data name="GiveawayPriceExample" xml:space="preserve">
-    <value>Enter price in language: {0} - e.g. {1}</value>
+  <data name="GiveawayPrizeExample" xml:space="preserve">
+    <value>Enter prize in language: {0} - e.g. {1}</value>
   </data>
   <data name="GiveawayStarted" xml:space="preserve">
     <value>Giveaway was started!</value>
@@ -210,7 +210,7 @@
   <data name="GiveawayWrongOften" xml:space="preserve">
     <value>You did not enter a correct number, e.g. `2`</value>
   </data>
-  <data name="GiveawayWrongPrice" xml:space="preserve">
+  <data name="GiveawayWrongPrize" xml:space="preserve">
     <value>You did not enter a correct string, e.g. {0}</value>
   </data>
   <data name="GiveawayWrongTime" xml:space="preserve">

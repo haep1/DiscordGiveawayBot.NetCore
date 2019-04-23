@@ -153,9 +153,9 @@ namespace BotClient.Resources {
         /// <summary>
         ///   Looks up a localized string similar to `An awesome key code`.
         /// </summary>
-        public static string GiveawayExamplePrice {
+        public static string GiveawayExamplePrize {
             get {
-                return ResourceManager.GetString("GiveawayExamplePrice", resourceCulture);
+                return ResourceManager.GetString("GiveawayExamplePrize", resourceCulture);
             }
         }
         
@@ -223,20 +223,20 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OK, which price should be raffled?.
+        ///   Looks up a localized string similar to OK, which prize should be raffled?.
         /// </summary>
-        public static string GiveawayPrice {
+        public static string GiveawayPrize {
             get {
-                return ResourceManager.GetString("GiveawayPrice", resourceCulture);
+                return ResourceManager.GetString("GiveawayPrize", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter price in language: {0} - e.g. {1}.
+        ///   Looks up a localized string similar to Enter prize in language: {0} - e.g. {1}.
         /// </summary>
-        public static string GiveawayPriceExample {
+        public static string GiveawayPrizeExample {
             get {
-                return ResourceManager.GetString("GiveawayPriceExample", resourceCulture);
+                return ResourceManager.GetString("GiveawayPrizeExample", resourceCulture);
             }
         }
         
@@ -342,9 +342,9 @@ namespace BotClient.Resources {
         /// <summary>
         ///   Looks up a localized string similar to You did not enter a correct string, e.g. {0}.
         /// </summary>
-        public static string GiveawayWrongPrice {
+        public static string GiveawayWrongPrize {
             get {
-                return ResourceManager.GetString("GiveawayWrongPrice", resourceCulture);
+                return ResourceManager.GetString("GiveawayWrongPrize", resourceCulture);
             }
         }
         

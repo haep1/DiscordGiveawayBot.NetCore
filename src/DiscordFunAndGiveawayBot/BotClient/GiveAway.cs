@@ -4,10 +4,8 @@ using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +13,8 @@ namespace UltraGiveawayBot
 {
     public class GiveAway : ModuleBase
     {
+        #region Static
+
         public static List<GiveAwayValues> InitValues { get; private set; }
 
         static GiveAway()
@@ -22,8 +22,13 @@ namespace UltraGiveawayBot
             InitValues = new List<GiveAwayValues>();
         }
 
+        #endregion
+
+        #region Members & Constructor
+
         private IDiscordClient _discordClient;
         private GiveAwayFunctions _functions;
+
 
         public GiveAway(IDiscordClient client)
         {
@@ -33,6 +38,10 @@ namespace UltraGiveawayBot
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
             _discordClient.Client.MessageReceived += Client_MessageReceived;
         }
+
+        #endregion
+
+        #region Discord commands
 
         [Command("initgiveaway"), Summary("Initializes a new giveaway")]
         public async Task InitGiveAway(IMessageChannel channel)
@@ -52,6 +61,25 @@ namespace UltraGiveawayBot
 
             await ReplyAsync(message, false, null);
         }
+
+        [Command("getwinner"), Summary("Shouts out the winners of a channel")]
+        public async Task GetWinners([Summary("Name des Channels")] IMessageChannel channel, string codeword)
+        {
+            await ShoutOutTheWinners(channel, codeword);
+        }
+
+        [Command("cancel"), Summary("Cancels the Giveaway")]
+        public async Task CancelGiveaway()
+        {
+            StopGiveawayInternal();
+            Console.WriteLine("Giveaway stopped");
+
+            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayStopped"));
+        }
+
+        #endregion
+
+        #region EventHandlers
 
         private async Task Client_MessageReceived(Discord.WebSocket.SocketMessage arg)
         {
@@ -96,6 +124,9 @@ namespace UltraGiveawayBot
             }
         }
 
+        #endregion
+
+        #region Methods
 
         public async Task StartGiveAway(GiveAwayValues inits, string message)
         {
@@ -206,21 +237,6 @@ namespace UltraGiveawayBot
             }
         }
 
-        [Command("getwinner"), Summary("Shouts out the winners of a channel")]
-        public async Task GetWinners([Summary("Name des Channels")] IMessageChannel channel, string codeword)
-        {
-            await ShoutOutTheWinners(channel, codeword);
-        }
-
-        [Command("cancel"), Summary("Cancels the Giveaway")]
-        public async Task CancelGiveaway()
-        {
-            StopGiveawayInternal();
-            Console.WriteLine("Giveaway stopped");
-
-            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayStopped"));
-        }
-
         private void StopGiveawayInternal()
         {
             GiveAwayValues inits = GetCurrentInitValues();
@@ -306,5 +322,7 @@ namespace UltraGiveawayBot
 
             return winners;
         }
+
+        #endregion
     }
 }

@@ -147,7 +147,7 @@
   <data name="GiveawayErrorTimer" xml:space="preserve">
     <value>Fehler bei der Erstellung des Timers. Giveaway konnte nicht initialisiert werden.</value>
   </data>
-  <data name="GiveawayExamplePrice" xml:space="preserve">
+  <data name="GiveawayExamplePrize" xml:space="preserve">
     <value>`Ein toller Key Code`</value>
   </data>
   <data name="GiveawayHowOften" xml:space="preserve">
@@ -171,10 +171,10 @@
   <data name="GiveawayParticipEndTime" xml:space="preserve">
     <value>Die Teilnahme endet um {0} Uhr.</value>
   </data>
-  <data name="GiveawayPrice" xml:space="preserve">
+  <data name="GiveawayPrize" xml:space="preserve">
     <value>OK, welcher Preis soll verlost werden?</value>
   </data>
-  <data name="GiveawayPriceExample" xml:space="preserve">
+  <data name="GiveawayPrizeExample" xml:space="preserve">
     <value>Gib den Preis in folgender Sprache ein: {0} - z.B. {1}</value>
   </data>
   <data name="GiveawayStarted" xml:space="preserve">
@@ -210,7 +210,7 @@
   <data name="GiveawayWrongOften" xml:space="preserve">
     <value>Du hast keine korrekte Zahl eingegeben, z.B. `2`</value>
   </data>
-  <data name="GiveawayWrongPrice" xml:space="preserve">
+  <data name="GiveawayWrongPrize" xml:space="preserve">
     <value>Du hast keine korrekte Zeichenfolge eingegeben, z.B. {0}</value>
   </data>
   <data name="GiveawayWrongTime" xml:space="preserve">
