@@ -1,3 +1,5 @@
 build:
   docker:
     web: src/DiscordFunAndGiveawayBot/Dockerfile
+run:
+    web: statping -port $PORT
