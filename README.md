@@ -6,6 +6,11 @@ The bot owns some different features, the main features is to organize giveaway-
 The difference to other Discord Bots is, that you can run a giveaway for a longer time - e.g. for some days. 
 People can participate by entering a predefined keyword.
 
+
+> **You can add the Bot to your Discord server using this URL:** <br/>
+> https://discordapp.com/api/oauth2/authorize?client_id=569931884495110144&permissions=68608&scope=bot
+
+
 ## Features
 The bot supports following features at the moment:
 
