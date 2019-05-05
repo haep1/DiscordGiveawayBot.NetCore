@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public class DiscordClient : IDiscordClient
     {

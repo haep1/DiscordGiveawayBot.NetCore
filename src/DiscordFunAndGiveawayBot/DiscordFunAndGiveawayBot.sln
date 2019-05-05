@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordFunAndGiveawayBot", "DiscordFunAndGiveawayBot\DiscordFunAndGiveawayBot.csproj", "{D0EC5CFE-9E49-43B9-9F63-F6BEAE7D7965}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordFunAndGiveawayBot", "DiscordFunAndGiveawayBot\DiscordFunAndGiveawayBot.csproj", "{D0EC5CFE-9E49-43B9-9F63-F6BEAE7D7965}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotClient", "BotClient\BotClient.csproj", "{62F325AE-68FD-4B27-B9E0-51EBDB801D3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{579CC95C-4783-44B2-B483-54948A9E31A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{62F325AE-68FD-4B27-B9E0-51EBDB801D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62F325AE-68FD-4B27-B9E0-51EBDB801D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62F325AE-68FD-4B27-B9E0-51EBDB801D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{579CC95C-4783-44B2-B483-54948A9E31A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{579CC95C-4783-44B2-B483-54948A9E31A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{579CC95C-4783-44B2-B483-54948A9E31A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{579CC95C-4783-44B2-B483-54948A9E31A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@ using BotClient;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public interface IDiscordClient
     {

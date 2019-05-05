@@ -1,7 +1,7 @@
-﻿using BotClient;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public class GiveAway : ModuleBase
     {
@@ -136,7 +136,7 @@ namespace UltraGiveawayBot
             }
 
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
-            inits.Timer = new Timer();
+            inits.Timer = new ScheduleManager();
             Console.WriteLine("StartingGiveaway");
 
             if (!inits.Timer.SetUpTimer(inits.GiveAwayTime, inits.GiveAwayDateTime, new Action(() =>
@@ -218,7 +218,7 @@ namespace UltraGiveawayBot
                             await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
                         }
 
-                        inits.Timer = new Timer();
+                        inits.Timer = new ScheduleManager();
                         if (inits.GiveAwayDateTime != null)
                         {
                             inits.GiveAwayDateTime = inits.GiveAwayDateTime.Value.AddDays(1);

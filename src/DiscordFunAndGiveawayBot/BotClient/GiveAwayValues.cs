@@ -1,8 +1,9 @@
 ﻿using Discord;
+using Scheduler;
 using System;
 using System.Collections.Generic;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public class GiveAwayValues
     {
@@ -19,7 +20,7 @@ namespace UltraGiveawayBot
         public Dictionary<string, string> CultureAward { get; set; } = new Dictionary<string, string>();
 
         public GiveAwayState State { get; set; }
-        public Timer Timer { get; set; }
+        public ScheduleManager Timer { get; set; }
 
         public string CurrentAwardLanguage { get; set; }
 

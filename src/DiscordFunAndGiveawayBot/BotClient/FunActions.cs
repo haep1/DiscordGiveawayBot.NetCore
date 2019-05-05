@@ -2,7 +2,7 @@
 using Discord.Commands;
 using System.Threading.Tasks;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public class FunActions : ModuleBase
     {

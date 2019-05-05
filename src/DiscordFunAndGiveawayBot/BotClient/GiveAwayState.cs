@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public enum GiveAwayState
     {

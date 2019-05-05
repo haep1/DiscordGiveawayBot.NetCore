@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 
-namespace UltraGiveawayBot
+namespace Scheduler
 {
-    public class Timer
+    public class ScheduleManager
     {
         private static TimeZoneInfo _berlinZone;
 
