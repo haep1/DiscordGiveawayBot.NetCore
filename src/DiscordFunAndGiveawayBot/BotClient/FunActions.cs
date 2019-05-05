@@ -8,6 +8,7 @@ namespace UltraGiveawayBot
     {
         private static IMessageChannel _channel;
         private static IUser _user;
+        private static IUser _messageAuthor;        
 
         private IDiscordClient _discordClient;
 
@@ -31,6 +32,7 @@ namespace UltraGiveawayBot
         {
             _channel = channel;
             _user = user;
+            _messageAuthor = _discordClient.Client.CurrentUser;
 
             _discordClient.Client.MessageReceived -= Client_MessageReceived;
             _discordClient.Client.MessageReceived += Client_MessageReceived;
@@ -39,12 +41,13 @@ namespace UltraGiveawayBot
 
         private async Task Client_MessageReceived(Discord.WebSocket.SocketMessage arg)
         {
-            if (!arg.Author.IsBot)
+            if (!arg.Author.IsBot && arg.Author == _messageAuthor)
             {
                 _discordClient.Client.MessageReceived -= Client_MessageReceived;
                 await _channel.SendMessageAsync(_user?.Mention + " " + arg.Content);
                 _channel = null;
                 _user = null;
+                _messageAuthor = null;
             }
         }
     }
