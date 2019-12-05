@@ -17,6 +17,8 @@ namespace BotClient
 
         public CultureHelper CultureHelper { get; set; }        
         public DiscordSocketClient Client { get; set; }
+
+        public ISocketMessageChannel CurrentChannel { get; set; }
         
 
         public bool IsRunning { get; private set; }
@@ -71,6 +73,7 @@ namespace BotClient
                     userMessage.HasMentionPrefix(Client.CurrentUser, ref argPos)) &&
                     !userMessage.Author.IsBot)
                 {
+                    CurrentChannel = arg.Channel;
                     Console.WriteLine("CommandAccepted: " + arg.Content);
                     CommandContext context = new CommandContext(Client, userMessage);
                     // Execute the command
