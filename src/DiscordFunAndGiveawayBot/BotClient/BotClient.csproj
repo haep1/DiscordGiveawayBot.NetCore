@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bot.BusinessObject\Bot.BusinessObject.csproj" />
+    <ProjectReference Include="..\Bot.CommonModules\Bot.CommonModules.csproj" />
+    <ProjectReference Include="..\Bot.Giveaway\Bot.Giveaway.csproj" />
+    <ProjectReference Include="..\Bot.Interfaces\Bot.Interfaces.csproj" />
     <ProjectReference Include="..\Scheduler\Scheduler.csproj" />
   </ItemGroup>
 

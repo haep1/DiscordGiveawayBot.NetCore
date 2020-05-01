@@ -106,6 +106,15 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In which languages do you wan&apos;t to announce the giveaway? Supported languages are: .
+        /// </summary>
+        public static string GiveawayAwardCultures {
+            get {
+                return ResourceManager.GetString("GiveawayAwardCultures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Congratulations!.
         /// </summary>
         public static string GiveawayCongrats {
@@ -115,7 +124,16 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To start now please enter the command: `start`.
+        ///   Looks up a localized string similar to Enter: %initgiveaway #[channel].
+        /// </summary>
+        public static string GiveawayEnterChannelTip {
+            get {
+                return ResourceManager.GetString("GiveawayEnterChannelTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To start now please enter the command: `%start`.
         /// </summary>
         public static string GiveawayEnterStart {
             get {
@@ -192,6 +210,24 @@ namespace BotClient.Resources {
         public static string GiveawayKeywordExample {
             get {
                 return ResourceManager.GetString("GiveawayKeywordExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You missed to add the channel!.
+        /// </summary>
+        public static string GiveawayMissingChannel {
+            get {
+                return ResourceManager.GetString("GiveawayMissingChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot start the giveaway before it is initialized..
+        /// </summary>
+        public static string GiveawayNotInitialized {
+            get {
+                return ResourceManager.GetString("GiveawayNotInitialized", resourceCulture);
             }
         }
         
@@ -286,7 +322,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please try again or enter `!cancel` to cancel the giveaway..
+        ///   Looks up a localized string similar to Please try again or enter `%cancel` to cancel the giveaway..
         /// </summary>
         public static string GiveawayTryAgain {
             get {
@@ -295,7 +331,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yout can enter `!cancel` all the time if you want to cancel the giveaway initiation!.
+        ///   Looks up a localized string similar to Yout can enter `%cancel` all the time if you want to cancel the giveaway initiation!.
         /// </summary>
         public static string GiveawayTypeCancel {
             get {
@@ -318,6 +354,15 @@ namespace BotClient.Resources {
         public static string GiveawayWinnerAnnounced {
             get {
                 return ResourceManager.GetString("GiveawayWinnerAnnounced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You did not enter a list of cultures, e.g. `en` or `en, de`.
+        /// </summary>
+        public static string GiveawayWrongCulture {
+            get {
+                return ResourceManager.GetString("GiveawayWrongCulture", resourceCulture);
             }
         }
         
@@ -354,6 +399,15 @@ namespace BotClient.Resources {
         public static string GiveawayWrongTime {
             get {
                 return ResourceManager.GetString("GiveawayWrongTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter e.g. `en` for english or enter `en, de` for english and german.
+        /// </summary>
+        public static string GiveawyAwardCulturesExample {
+            get {
+                return ResourceManager.GetString("GiveawyAwardCulturesExample", resourceCulture);
             }
         }
         

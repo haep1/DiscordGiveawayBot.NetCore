@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bot.BusinessObject
+namespace Bot.Interfaces
 {
     public enum GiveAwayState
     {
         None,
         SetGiveAwayTime,
-        SetCountGiveAways,
+        //SetCountGiveAways,
+        SetAwardCultures,
         SetCountWinners,
         SetCodeword,
         SetAward,

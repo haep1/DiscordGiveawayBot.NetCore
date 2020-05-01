@@ -1,8 +1,9 @@
-﻿using Discord;
+﻿using Bot.Interfaces;
+using Discord;
 
-namespace Bot.BusinessObject
+namespace BotClient
 {
-    public class DiscordValues
+    public class DiscordValues : IDiscordValues
     {
         public IGuild ServerGuild { get; set; }
 

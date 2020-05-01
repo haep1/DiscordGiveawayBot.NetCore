@@ -1,8 +1,9 @@
-﻿using Discord;
+﻿using Bot.Interfaces;
+using Discord;
 using Discord.Commands;
 using System.Threading.Tasks;
 
-namespace BotClient
+namespace Bot.CommonModules
 {
     public class FunActions : ModuleBase
     {
@@ -11,18 +12,18 @@ namespace BotClient
         private static IUser _messageAuthor;
         private static IChannel _currentChannel;
 
-        private DiscordClient _discordClient;
+        private Interfaces.IDiscordClient _discordClient;
 
-        public FunActions(IDiscordClient client)
+        public FunActions(Interfaces.IDiscordClient client)
         {
-            _discordClient = (DiscordClient)client;
+            _discordClient = client;
         }
 
         [Command("sendmessage"), Summary("Initializes a new MessageSend")]
         public async Task SendMessage(IMessageChannel channel)
         {
             _channel = channel;
-            _messageAuthor = _discordClient.Client.CurrentUser;
+            _messageAuthor = Context.User;
             _currentChannel = Context.Channel;
 
             _discordClient.Client.MessageReceived -= Client_MessageReceived;

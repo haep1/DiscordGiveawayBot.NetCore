@@ -1,48 +1,55 @@
 ﻿using Bot.BusinessObject;
+using Bot.Interfaces;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BotClient;
+using Scheduler;
 
-namespace BotClient
+namespace Bot.Giveaway
 {
-    public class GiveAway : ModuleBase
+    public class GiveAway : ModuleBase, IGiveAway
     {
         #region Static
 
-        public static List<GiveAwayValues> InitValues { get; private set; }
+        public static List<IGiveAwayValues> InitValues { get; private set; }
 
         static GiveAway()
         {
-            InitValues = new List<GiveAwayValues>();
+            InitValues = new List<IGiveAwayValues>();
         }
 
         #endregion
 
         #region Members & Constructor
 
-        private IDiscordClient _discordClient;
+        private Bot.Interfaces.IDiscordClient _discordClient;
         private GiveAwayFunctions _functions;
 
 
-        public GiveAway(IDiscordClient client)
+        public GiveAway(Bot.Interfaces.IDiscordClient client)
         {
             _discordClient = client;
             _functions = new GiveAwayFunctions(client);
-
-            _discordClient.Client.MessageReceived -= Client_MessageReceived;
-            _discordClient.Client.MessageReceived += Client_MessageReceived;
         }
 
         #endregion
 
         #region Discord commands
+
+        [Command("initgiveaway"), Summary("Initializes a new giveaway")]
+        public async Task InitGiveAway()
+        {
+            string message = _discordClient.CultureHelper.GetAdminString("GiveawayMissingChannel") + Environment.NewLine +
+                             _discordClient.CultureHelper.GetAdminString("GiveawayEnterChannelTip");
+            await ReplyAsync(message, false, null);
+        }
 
         [Command("initgiveaway"), Summary("Initializes a new giveaway")]
         public async Task InitGiveAway(IMessageChannel channel)
@@ -53,14 +60,34 @@ namespace BotClient
                              _discordClient.CultureHelper.GetAdminString("GiveawayEnterTime") + Environment.NewLine +
                              _discordClient.CultureHelper.GetAdminString("GiveawayTimeExample");
             GiveAwayValues values = new GiveAwayValues();
+            values.Owner = this;
             values.ServerGuild = Context.Guild;
             values.TargetChannel = channel;
             values.SourceChannel = Context.Channel;
             values.AdminUser = Context.User;
-            values.State = GiveAwayState.SetGiveAwayTime;
+            values.State = Bot.Interfaces.GiveAwayState.SetGiveAwayTime;
+            values.CountGiveAways = 1;
             InitValues.Add(values);
 
+            _discordClient.Client.MessageReceived -= Client_MessageReceived;
+            _discordClient.Client.MessageReceived += Client_MessageReceived;
+
             await ReplyAsync(message, false, null);
+        }
+
+
+        [Command("start"), Summary("Starts the initialized giveaway")]
+        public async Task Start()
+        {
+            IGiveAwayValues inits = GetCurrentInitValues();
+            if (inits != null && inits.State == GiveAwayState.Initialized) {
+                await StartGiveAway(inits);
+            }
+            else
+            {
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayNotInitialized")
+                    + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawayEnterChannelTip"));
+            }
         }
 
         [Command("getwinner"), Summary("Shouts out the winners of a channel")]
@@ -72,10 +99,11 @@ namespace BotClient
         [Command("cancel"), Summary("Cancels the Giveaway")]
         public async Task CancelGiveaway()
         {
-            StopGiveawayInternal();
-            Console.WriteLine("Giveaway stopped");
-
-            await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayStopped"));
+            if (StopGiveawayInternal())
+            {
+                Console.WriteLine("Giveaway stopped");
+                await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayStopped"));
+            }
         }
 
         #endregion
@@ -84,45 +112,44 @@ namespace BotClient
 
         private async Task Client_MessageReceived(Discord.WebSocket.SocketMessage arg)
         {
-            GiveAwayValues inits = null;
-            inits = GetCurrentInitValues();
-            inits = GetCurrentInitValues();
+            IGiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
                 if (arg is SocketUserMessage userMessage &&
                     !userMessage.Author.IsBot &&
                     userMessage.Channel == inits.SourceChannel &&
-                    userMessage.Author == inits.AdminUser)
+                    userMessage.Author == inits.AdminUser && 
+                        !userMessage.Content.ToLower().Equals("!cancel"))
                 {
-                    if (userMessage.Content.ToLower().Equals("!cancel"))
-                    {
-                        // todo: Should call StopGiveawayinternal here??
-                        return;
-                    }
-
                     string message = null;
                     switch (inits.State)
                     {
-                        case GiveAwayState.SetGiveAwayTime:
+                        case Bot.Interfaces.GiveAwayState.SetGiveAwayTime:
                             message = _functions.SetGiveAwayTime(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
-                        case GiveAwayState.SetCountGiveAways:
-                            message = _functions.SetCountGiveAways(inits, userMessage.Content);
+                        //case GiveAwayState.SetCountGiveAways:
+                        //    message = _functions.SetCountGiveAways(inits, userMessage.Content);
+                        //    await ReplyAsync(message);
+                        //    break;
+                        case Bot.Interfaces.GiveAwayState.SetAwardCultures:
+                            message = _functions.SetAwardCultures(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
-                        case GiveAwayState.SetCodeword:
+                        case Bot.Interfaces.GiveAwayState.SetCodeword:
                             message = _functions.SetCodeword(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
-                        case GiveAwayState.SetAward:
+                        case Bot.Interfaces.GiveAwayState.SetAward:
                             message = _functions.SetAward(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
-                        case GiveAwayState.Initialized:
-                            await StartGiveAway(inits, userMessage.Content);
-                            break;
                     }
+                }
+
+                if (inits.State == GiveAwayState.Initialized)
+                {
+                    _discordClient.Client.MessageReceived -= Client_MessageReceived;
                 }
             }
         }
@@ -131,14 +158,8 @@ namespace BotClient
 
         #region Methods
 
-        public async Task StartGiveAway(GiveAwayValues inits, string message)
+        public async Task StartGiveAway(IGiveAwayValues inits)
         {
-            if (!message.Equals("start"))
-            {
-                return;
-            }
-
-            _discordClient.Client.MessageReceived -= Client_MessageReceived;
             inits.Timer = new ScheduleManager();
             Console.WriteLine("StartingGiveaway");
 
@@ -151,7 +172,7 @@ namespace BotClient
                 return;
             }
 
-            foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
+            foreach (CultureInfo culture in inits.AwardCultures)
             {
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.WithDescription(GetGiveawayMessage(culture, inits, true));
@@ -163,18 +184,18 @@ namespace BotClient
             await ReplyAsync(":tada: " + _discordClient.CultureHelper.GetAdminString("GiveawayStarted"));
         }
 
-        public string GetGiveawayMessage(CultureInfo culture, GiveAwayValues inits, bool first)
+        public string GetGiveawayMessage(CultureInfo culture, IGiveAwayValues inits, bool first)
         {
             string announce = first ? _discordClient.CultureHelper.GetOutputString("GiveawayAnnounce", culture) :
                                       _discordClient.CultureHelper.GetOutputString("GiveawayAnnounceNext", culture);
             return Environment.NewLine + announce + Environment.NewLine +
                    string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayAnnounceWin", culture),
-                                 inits.CultureAward[culture.Name]) + Environment.NewLine +
+                                 inits.CultureAward[culture]) + Environment.NewLine +
                    string.Format(_discordClient.CultureHelper.GetOutputString("GiveawayAnnounceKeyword", culture),
                                  inits.Codeword) + " :tada:";
         }
 
-        private void AddEndTimeField(GiveAwayValues inits, EmbedBuilder embed, CultureInfo culture)
+        private void AddEndTimeField(IGiveAwayValues inits, EmbedBuilder embed, CultureInfo culture)
         {
             if (inits.GiveAwayTime != null)
             {
@@ -196,7 +217,7 @@ namespace BotClient
 
         private async Task SetTimerValues()
         {
-            GiveAwayValues inits = GetCurrentInitValues();
+            IGiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
                 await ShoutOutTheWinners(inits.TargetChannel, inits.Codeword);
@@ -204,7 +225,6 @@ namespace BotClient
                 if (inits.CountGiveAways == 0)
                 {
                     StopGiveawayInternal();
-                    _discordClient.Client.MessageReceived -= Client_MessageReceived;
                 }
                 else
                 {
@@ -240,21 +260,29 @@ namespace BotClient
             }
         }
 
-        private void StopGiveawayInternal()
+        private void UnhandleMessageReceive()
         {
-            GiveAwayValues inits = GetCurrentInitValues();
+            _discordClient.Client.MessageReceived -= Client_MessageReceived;
+        }
+
+        private bool StopGiveawayInternal()
+        {
+            IGiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
                 inits.Reset();
+                (inits.Owner as GiveAway)?.UnhandleMessageReceive();
                 InitValues.Remove(inits);
+                return true;
             }
+            return false;
         }
 
-        internal GiveAwayValues GetCurrentInitValues()
+        internal IGiveAwayValues GetCurrentInitValues()
         {
             if (InitValues != null && Context != null)
             {
-                GiveAwayValues initValues = InitValues.SingleOrDefault(x => x.ServerGuild == Context.Guild);
+                IGiveAwayValues initValues = InitValues.SingleOrDefault(x => x.ServerGuild == Context.Guild);
                 return initValues;
             }
             return null;
@@ -284,11 +312,11 @@ namespace BotClient
                                       .Select(y => y.Author).Distinct().Where(x => !x.IsBot).ToList();
             List<IUser> winners = GetWinners(1, users);
 
-            
+
             foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
             {
                 string message = _discordClient.CultureHelper.GetOutputString("GiveawayWinner", culture) + Environment.NewLine;
-                
+
                 foreach (IUser winner in winners)
                 {
                     message += $":trophy: {winner.Mention} :trophy:" + Environment.NewLine;

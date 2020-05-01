@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bot.Giveaway\Bot.Giveaway.csproj" />
     <ProjectReference Include="..\BotClient\BotClient.csproj" />
   </ItemGroup>
 

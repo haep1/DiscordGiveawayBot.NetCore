@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Bot.Interfaces;
+using System;
 using System.Threading;
 
 namespace Scheduler
 {
-    public class ScheduleManager
+    public class ScheduleManager : IScheduleManager
     {
         private static TimeZoneInfo _berlinZone;
 
