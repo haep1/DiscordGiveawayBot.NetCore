@@ -60,6 +60,7 @@ namespace BotClient
 
             // Login and start
             await Client.LoginAsync(Discord.TokenType.Bot, discordToken);
+            await Client.SetGameAsync("giveaway | %help");
             await Client.StartAsync();
         }
 
