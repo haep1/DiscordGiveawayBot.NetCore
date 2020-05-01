@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Bot.BusinessObject;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Scheduler;
@@ -53,8 +54,8 @@ namespace BotClient
                              _discordClient.CultureHelper.GetAdminString("GiveawayTimeExample");
             GiveAwayValues values = new GiveAwayValues();
             values.ServerGuild = Context.Guild;
-            values.GiveawayChannel = channel;
-            values.AdminChannel = Context.Channel;
+            values.TargetChannel = channel;
+            values.SourceChannel = Context.Channel;
             values.AdminUser = Context.User;
             values.State = GiveAwayState.SetGiveAwayTime;
             InitValues.Add(values);
@@ -85,15 +86,17 @@ namespace BotClient
         {
             GiveAwayValues inits = null;
             inits = GetCurrentInitValues();
+            inits = GetCurrentInitValues();
             if (inits != null)
             {
                 if (arg is SocketUserMessage userMessage &&
                     !userMessage.Author.IsBot &&
-                    userMessage.Channel == inits.AdminChannel &&
+                    userMessage.Channel == inits.SourceChannel &&
                     userMessage.Author == inits.AdminUser)
                 {
                     if (userMessage.Content.ToLower().Equals("!cancel"))
                     {
+                        // todo: Should call StopGiveawayinternal here??
                         return;
                     }
 
@@ -154,7 +157,7 @@ namespace BotClient
                 embed.WithDescription(GetGiveawayMessage(culture, inits, true));
                 AddEndTimeField(inits, embed, culture);
 
-                await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
+                await inits.TargetChannel.SendMessageAsync(string.Empty, false, embed.Build());
             }
 
             await ReplyAsync(":tada: " + _discordClient.CultureHelper.GetAdminString("GiveawayStarted"));
@@ -196,7 +199,7 @@ namespace BotClient
             GiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
-                await ShoutOutTheWinners(inits.GiveawayChannel, inits.Codeword);
+                await ShoutOutTheWinners(inits.TargetChannel, inits.Codeword);
                 inits.CountGiveAways--;
                 if (inits.CountGiveAways == 0)
                 {
@@ -215,7 +218,7 @@ namespace BotClient
                             embed.WithDescription(GetGiveawayMessage(culture, inits, false));
                             AddEndTimeField(inits, embed, culture);
 
-                            await inits.GiveawayChannel.SendMessageAsync(string.Empty, false, embed.Build());
+                            await inits.TargetChannel.SendMessageAsync(string.Empty, false, embed.Build());
                         }
 
                         inits.Timer = new ScheduleManager();

@@ -3,9 +3,9 @@ using Scheduler;
 using System;
 using System.Collections.Generic;
 
-namespace BotClient
+namespace Bot.BusinessObject
 {
-    public class GiveAwayValues
+    public class GiveAwayValues : DiscordValues
     {
         public IGuild ServerGuild { get; set; }
         public TimeSpan? GiveAwayTime { get; set; }
@@ -14,9 +14,6 @@ namespace BotClient
         public uint CountWinners { get { return 1; } }
         public string Codeword { get; set; }
 
-        public IMessageChannel GiveawayChannel { get; set; }
-        public IMessageChannel AdminChannel { get; set; }
-        public IUser AdminUser { get; set; }
         public Dictionary<string, string> CultureAward { get; set; } = new Dictionary<string, string>();
 
         public GiveAwayState State { get; set; }
@@ -24,15 +21,13 @@ namespace BotClient
 
         public string CurrentAwardLanguage { get; set; }
 
-        public void Reset()
+        public override void Reset()
         {
+            base.Reset();
             GiveAwayTime = null;
             GiveAwayDateTime = null;
             CountGiveAways = 0;
             Codeword = null;
-            GiveawayChannel = null;
-            AdminChannel = null;
-            AdminUser = null;
             CultureAward = new Dictionary<string, string>();
             CurrentAwardLanguage = null;
             State = GiveAwayState.None;

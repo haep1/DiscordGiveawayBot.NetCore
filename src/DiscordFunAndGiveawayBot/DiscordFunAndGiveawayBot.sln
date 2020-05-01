@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordFunAndGiveawayBot", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotClient", "BotClient\BotClient.csproj", "{62F325AE-68FD-4B27-B9E0-51EBDB801D3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{579CC95C-4783-44B2-B483-54948A9E31A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler", "Scheduler\Scheduler.csproj", "{579CC95C-4783-44B2-B483-54948A9E31A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot.BusinessObject", "Bot.BusinessObject\Bot.BusinessObject.csproj", "{69939391-57BD-4BCC-B7ED-4E2542969BE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{579CC95C-4783-44B2-B483-54948A9E31A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{579CC95C-4783-44B2-B483-54948A9E31A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{579CC95C-4783-44B2-B483-54948A9E31A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69939391-57BD-4BCC-B7ED-4E2542969BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69939391-57BD-4BCC-B7ED-4E2542969BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69939391-57BD-4BCC-B7ED-4E2542969BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69939391-57BD-4BCC-B7ED-4E2542969BE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

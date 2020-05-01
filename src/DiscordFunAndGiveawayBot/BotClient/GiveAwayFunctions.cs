@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot.BusinessObject;
+using System;
 using System.Globalization;
 
 namespace BotClient
