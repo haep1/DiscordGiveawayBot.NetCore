@@ -12,6 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bot.CommonModules\Bot.CommonModules.csproj" />
+    <ProjectReference Include="..\Bot.Giveaway\Bot.Giveaway.csproj" />
+    <ProjectReference Include="..\Bot.Interfaces\Bot.Interfaces.csproj" />
+    <ProjectReference Include="..\Scheduler\Scheduler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

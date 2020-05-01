@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Bot.Interfaces;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Resources;
 using System.Text;
 
 namespace BotClient
 {
-    public class CultureHelper
+    public class CultureHelper : ICultureHelper
     {
         private ResourceManager _resManager;
 
@@ -15,11 +18,11 @@ namespace BotClient
 
         public CultureInfo AdminCulture { get; private set; }
 
-        public CultureHelper(List<CultureInfo> outputCultures, CultureInfo adminCulture)
+        public CultureHelper(IConfiguration configuration)
         {
-            OutputCultures = outputCultures;
-            AdminCulture = adminCulture;
-
+            AppSettings appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
+            OutputCultures = appSettings.OutputCultures.Select(culture => new CultureInfo(culture)).ToList();
+            AdminCulture = new CultureInfo(appSettings.AdminCulture);
             _resManager = Resources.Resources.ResourceManager;
         }
 

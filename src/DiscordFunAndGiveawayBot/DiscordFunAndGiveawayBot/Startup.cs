@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Bot.Giveaway;
+using Bot.Interfaces;
+using BotClient;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using UltraGiveawayBot;
 
 namespace DiscordFunAndGiveawayBot
 {
@@ -22,10 +24,12 @@ namespace DiscordFunAndGiveawayBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDiscordClient, DiscordClient>();
+            services.AddSingleton<IGiveAway, GiveAway>();
+            services.AddSingleton<ICultureHelper, CultureHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDiscordClient discordClient)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDiscordClient discordClient, ICultureHelper cultureHelper)
         {
             if (env.IsDevelopment())
             {
@@ -43,7 +47,7 @@ namespace DiscordFunAndGiveawayBot
                 {
                     // You can add the token as an environment variable - e.g. as a Config Var in Heroku
                     string discordToken = Environment.GetEnvironmentVariable("DiscordToken");
-                    await discordClient.RunBot(app.ApplicationServices, Configuration, discordToken);
+                    await discordClient.RunBot(app.ApplicationServices, Configuration, cultureHelper, discordToken);
                 }
             });
         }

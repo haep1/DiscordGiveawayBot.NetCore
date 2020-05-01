@@ -1,5 +1,4 @@
-﻿using BotClient;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -7,23 +6,29 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
+using Bot.Interfaces;
+using Bot.Giveaway;
+using Bot.CommonModules;
 
-namespace UltraGiveawayBot
+namespace BotClient
 {
     public class DiscordClient : IDiscordClient
     {
         private CommandService Commands { get; set; }
         private IServiceProvider Services { get; set; }
 
-        public CultureHelper CultureHelper { get; set; }        
+        public ICultureHelper CultureHelper { get; set; }
         public DiscordSocketClient Client { get; set; }
-        
+
+        public ISocketMessageChannel CurrentChannel { get; set; }
+
 
         public bool IsRunning { get; private set; }
 
-        public async Task RunBot(IServiceProvider provider, IConfiguration configuration, string discordToken = null)
+        public async Task RunBot(IServiceProvider provider, IConfiguration configuration, ICultureHelper cultureHelper, string discordToken = null)
         {
             IsRunning = true;
+            CultureHelper = cultureHelper;
             Client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = Discord.LogSeverity.Info
@@ -39,20 +44,18 @@ namespace UltraGiveawayBot
             Services = provider;
 
             // Read cultures from appsettings
-            AppSettings appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
-            var outputCultures = appSettings.OutputCultures.Select(culture => new CultureInfo(culture)).ToList();
-            var adminCulture = new CultureInfo(appSettings.AdminCulture);
-
-            CultureHelper = new CultureHelper(outputCultures, adminCulture);
 
             // Add this assembly for command fetching
-            await Commands.AddModulesAsync(Assembly.GetExecutingAssembly(), Services);
+            await Commands.AddModuleAsync<GiveAway>(Services);
+            await Commands.AddModuleAsync<FunActions>(Services);
+            await Commands.AddModuleAsync<HelpModule>(Services);
 
             // Add eventhandlers
             Client.MessageReceived -= Client_MessageReceived;
             Client.MessageReceived += Client_MessageReceived;
             Client.Log += Client_Log;
 
+            AppSettings appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
             discordToken = discordToken ?? appSettings.DiscordToken;
 
             // Login and start
@@ -67,10 +70,11 @@ namespace UltraGiveawayBot
                 int argPos = 0;
 
                 // Receive all commands that start with '!'
-                if ((userMessage.HasCharPrefix('!', ref argPos) ||
+                if ((userMessage.HasCharPrefix('%', ref argPos) ||
                     userMessage.HasMentionPrefix(Client.CurrentUser, ref argPos)) &&
                     !userMessage.Author.IsBot)
                 {
+                    CurrentChannel = arg.Channel;
                     Console.WriteLine("CommandAccepted: " + arg.Content);
                     CommandContext context = new CommandContext(Client, userMessage);
                     // Execute the command
@@ -87,7 +91,7 @@ namespace UltraGiveawayBot
 
         private static Task Client_Log(Discord.LogMessage arg)
         {
-            if (!arg.Message.StartsWith("Received Dispatch"))
+            if (arg.Message != null && !arg.Message.StartsWith("Received Dispatch"))
             {
                 Console.WriteLine("Logging: " + arg.Message);
             }

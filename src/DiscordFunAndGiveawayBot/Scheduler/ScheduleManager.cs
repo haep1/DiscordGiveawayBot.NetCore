@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Bot.Interfaces;
+using System;
 using System.Threading;
 
-namespace UltraGiveawayBot
+namespace Scheduler
 {
-    public class Timer
+    public class ScheduleManager : IScheduleManager
     {
         private static TimeZoneInfo _berlinZone;
 
