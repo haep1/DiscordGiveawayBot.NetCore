@@ -1,4 +1,5 @@
-﻿using Bot.Interfaces;
+﻿using Bot.Giveaway;
+using Bot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,7 +16,7 @@ namespace BotClient
             _discordClient = discordClient;
         }
 
-        public string SetGiveAwayTime(IGiveAwayValues inits, string message)
+        public string SetGiveAwayTime(GiveAwayValues inits, string message)
         {
             if (inits != null)
             {
@@ -57,7 +58,7 @@ namespace BotClient
             return nextQuestion;
         }
 
-        public string SetAwardCultures(IGiveAwayValues inits, string message)
+        public string SetAwardCultures(GiveAwayValues inits, string message)
         {
             string[] separators = { "," };
             string[] cultureNames = message.Split(separators, StringSplitOptions.RemoveEmptyEntries);
@@ -104,7 +105,7 @@ namespace BotClient
         //    return result;
         //}
 
-        public string SetCodeword(IGiveAwayValues inits, string message)
+        public string SetCodeword(GiveAwayValues inits, string message)
         {
             string result = null;
             if (inits != null && !string.IsNullOrWhiteSpace(message))
@@ -122,7 +123,7 @@ namespace BotClient
             return result;
         }
 
-        public string SetAwardQuestion(IGiveAwayValues inits)
+        public string SetAwardQuestion(GiveAwayValues inits)
         {
             string result = null;
             foreach (CultureInfo culture in inits.AwardCultures)
@@ -139,7 +140,7 @@ namespace BotClient
             return result;
         }
 
-        public string SetAward(IGiveAwayValues inits, string message)
+        public string SetAward(GiveAwayValues inits, string message)
         {
             string result = null;
             if (inits != null && !string.IsNullOrWhiteSpace(message))

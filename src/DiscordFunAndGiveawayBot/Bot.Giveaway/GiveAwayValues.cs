@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Bot.BusinessObject
+namespace Bot.Giveaway
 {
-    public class GiveAwayValues : IGiveAwayValues
+    public class GiveAwayValues : IDiscordValues
     {
         public IUser AdminUser { get; set; }
         public IMessageChannel SourceChannel { get; set; }
         public IMessageChannel TargetChannel { get; set; }
-        public IGiveAway Owner { get; set; }
+        public GiveAway Owner { get; set; }
         public IGuild ServerGuild { get; set; }
         public TimeSpan? GiveAwayTime { get; set; }
         public DateTime? GiveAwayDateTime { get; set; }

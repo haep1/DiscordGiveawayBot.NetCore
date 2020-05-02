@@ -24,7 +24,6 @@ namespace DiscordFunAndGiveawayBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDiscordClient, DiscordClient>();
-            services.AddSingleton<IGiveAway, GiveAway>();
             services.AddSingleton<ICultureHelper, CultureHelper>();
         }
 
