@@ -1,5 +1,4 @@
-﻿using Bot.BusinessObject;
-using Bot.Interfaces;
+﻿using Bot.Interfaces;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -14,15 +13,15 @@ using Scheduler;
 
 namespace Bot.Giveaway
 {
-    public class GiveAway : ModuleBase, IGiveAway
+    public class GiveAway : ModuleBase
     {
         #region Static
 
-        public static List<IGiveAwayValues> InitValues { get; private set; }
+        public static List<GiveAwayValues> InitValues { get; private set; }
 
         static GiveAway()
         {
-            InitValues = new List<IGiveAwayValues>();
+            InitValues = new List<GiveAwayValues>();
         }
 
         #endregion
@@ -65,7 +64,7 @@ namespace Bot.Giveaway
             values.TargetChannel = channel;
             values.SourceChannel = Context.Channel;
             values.AdminUser = Context.User;
-            values.State = Bot.Interfaces.GiveAwayState.SetGiveAwayTime;
+            values.State = GiveAwayState.SetGiveAwayTime;
             values.CountGiveAways = 1;
             InitValues.Add(values);
 
@@ -79,7 +78,7 @@ namespace Bot.Giveaway
         [Command("start"), Summary("Starts the initialized giveaway")]
         public async Task Start()
         {
-            IGiveAwayValues inits = GetCurrentInitValues();
+            GiveAwayValues inits = GetCurrentInitValues();
             if (inits != null && inits.State == GiveAwayState.Initialized) {
                 await StartGiveAway(inits);
             }
@@ -93,7 +92,7 @@ namespace Bot.Giveaway
         [Command("announcewinner"), Summary("Shouts out the winner")]
         public async Task AnnounceWinner()
         {
-            IGiveAwayValues inits = GetCurrentInitValues();
+            GiveAwayValues inits = GetCurrentInitValues();
             await ShoutOutTheWinners(inits);
         }
 
@@ -113,7 +112,7 @@ namespace Bot.Giveaway
 
         private async Task Client_MessageReceived(Discord.WebSocket.SocketMessage arg)
         {
-            IGiveAwayValues inits = GetCurrentInitValues();
+            GiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
                 if (arg is SocketUserMessage userMessage &&
@@ -125,7 +124,7 @@ namespace Bot.Giveaway
                     string message = null;
                     switch (inits.State)
                     {
-                        case Bot.Interfaces.GiveAwayState.SetGiveAwayTime:
+                        case GiveAwayState.SetGiveAwayTime:
                             message = _functions.SetGiveAwayTime(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
@@ -133,15 +132,15 @@ namespace Bot.Giveaway
                         //    message = _functions.SetCountGiveAways(inits, userMessage.Content);
                         //    await ReplyAsync(message);
                         //    break;
-                        case Bot.Interfaces.GiveAwayState.SetAwardCultures:
+                        case GiveAwayState.SetAwardCultures:
                             message = _functions.SetAwardCultures(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
-                        case Bot.Interfaces.GiveAwayState.SetCodeword:
+                        case GiveAwayState.SetCodeword:
                             message = _functions.SetCodeword(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
-                        case Bot.Interfaces.GiveAwayState.SetAward:
+                        case GiveAwayState.SetAward:
                             message = _functions.SetAward(inits, userMessage.Content);
                             await ReplyAsync(message);
                             break;
@@ -159,7 +158,7 @@ namespace Bot.Giveaway
 
         #region Methods
 
-        public async Task StartGiveAway(IGiveAwayValues inits)
+        public async Task StartGiveAway(GiveAwayValues inits)
         {
             inits.Timer = new ScheduleManager();
             Console.WriteLine("StartingGiveaway");
@@ -185,7 +184,7 @@ namespace Bot.Giveaway
             await ReplyAsync(":tada: " + _discordClient.CultureHelper.GetAdminString("GiveawayStarted"));
         }
 
-        public string GetGiveawayMessage(CultureInfo culture, IGiveAwayValues inits, bool first)
+        public string GetGiveawayMessage(CultureInfo culture, GiveAwayValues inits, bool first)
         {
             string announce = first ? _discordClient.CultureHelper.GetOutputString("GiveawayAnnounce", culture) :
                                       _discordClient.CultureHelper.GetOutputString("GiveawayAnnounceNext", culture);
@@ -196,7 +195,7 @@ namespace Bot.Giveaway
                                  inits.Codeword) + " :tada:";
         }
 
-        private void AddEndTimeField(IGiveAwayValues inits, EmbedBuilder embed, CultureInfo culture)
+        private void AddEndTimeField(GiveAwayValues inits, EmbedBuilder embed, CultureInfo culture)
         {
             if (inits.GiveAwayTime != null)
             {
@@ -218,7 +217,7 @@ namespace Bot.Giveaway
 
         private async Task SetTimerValues()
         {
-            IGiveAwayValues inits = GetCurrentInitValues();
+            GiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
                 if (await ShoutOutTheWinners(inits))
@@ -262,7 +261,7 @@ namespace Bot.Giveaway
 
         private bool StopGiveawayInternal()
         {
-            IGiveAwayValues inits = GetCurrentInitValues();
+            GiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
                 inits.Reset();
@@ -273,17 +272,17 @@ namespace Bot.Giveaway
             return false;
         }
 
-        internal IGiveAwayValues GetCurrentInitValues()
+        internal GiveAwayValues GetCurrentInitValues()
         {
             if (InitValues != null && Context != null)
             {
-                IGiveAwayValues initValues = InitValues.SingleOrDefault(x => x.ServerGuild == Context.Guild);
+                GiveAwayValues initValues = InitValues.SingleOrDefault(x => x.ServerGuild == Context.Guild);
                 return initValues;
             }
             return null;
         }
 
-        private async Task<bool> ShoutOutTheWinners(IGiveAwayValues inits)
+        private async Task<bool> ShoutOutTheWinners(GiveAwayValues inits)
         {
             List<IReadOnlyCollection<IMessage>> readonlymessages = await inits.TargetChannel.GetMessagesAsync(1000).ToList();
             List<IMessage> messages = readonlymessages.SelectMany(x => x).ToList();

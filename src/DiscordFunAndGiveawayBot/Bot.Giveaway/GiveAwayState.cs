@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bot.Interfaces
+namespace Bot.Giveaway
 {
     public enum GiveAwayState
     {
