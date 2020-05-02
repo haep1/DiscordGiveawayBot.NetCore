@@ -90,10 +90,11 @@ namespace Bot.Giveaway
             }
         }
 
-        [Command("getwinner"), Summary("Shouts out the winners of a channel")]
-        public async Task GetWinners([Summary("Name des Channels")] IMessageChannel channel, string codeword)
+        [Command("announcewinner"), Summary("Shouts out the winner")]
+        public async Task AnnounceWinner()
         {
-            await ShoutOutTheWinners(channel, codeword);
+            IGiveAwayValues inits = GetCurrentInitValues();
+            await ShoutOutTheWinners(inits);
         }
 
         [Command("cancel"), Summary("Cancels the Giveaway")]
@@ -119,7 +120,7 @@ namespace Bot.Giveaway
                     !userMessage.Author.IsBot &&
                     userMessage.Channel == inits.SourceChannel &&
                     userMessage.Author == inits.AdminUser && 
-                        !userMessage.Content.ToLower().Equals("!cancel"))
+                    !userMessage.Content.ToLower().Equals("%cancel"))
                 {
                     string message = null;
                     switch (inits.State)
@@ -220,13 +221,7 @@ namespace Bot.Giveaway
             IGiveAwayValues inits = GetCurrentInitValues();
             if (inits != null)
             {
-                await ShoutOutTheWinners(inits.TargetChannel, inits.Codeword);
-                inits.CountGiveAways--;
-                if (inits.CountGiveAways == 0)
-                {
-                    StopGiveawayInternal();
-                }
-                else
+                if (await ShoutOutTheWinners(inits))
                 {
                     try
                     {
@@ -288,9 +283,9 @@ namespace Bot.Giveaway
             return null;
         }
 
-        private async Task ShoutOutTheWinners(IMessageChannel channel, string codeword)
+        private async Task<bool> ShoutOutTheWinners(IGiveAwayValues inits)
         {
-            List<IReadOnlyCollection<IMessage>> readonlymessages = await channel.GetMessagesAsync(1000).ToList();
+            List<IReadOnlyCollection<IMessage>> readonlymessages = await inits.TargetChannel.GetMessagesAsync(1000).ToList();
             List<IMessage> messages = readonlymessages.SelectMany(x => x).ToList();
             IMessage latestBotMessage = messages.FirstOrDefault(x => x.Author.Id == Context.Client.CurrentUser.Id);
             List<IMessage> latestMessages;
@@ -308,25 +303,36 @@ namespace Bot.Giveaway
                 latestMessages = messages;
             }
 
-            List<IUser> users = latestMessages.Where(m => m.Content.ToLower().Contains(codeword.ToLower()))
+            List<IUser> users = latestMessages.Where(m => m.Content.ToLower().Contains(inits.Codeword.ToLower()))
                                       .Select(y => y.Author).Distinct().Where(x => !x.IsBot).ToList();
             List<IUser> winners = GetWinners(1, users);
 
 
-            foreach (CultureInfo culture in _discordClient.CultureHelper.OutputCultures)
+            foreach (CultureInfo culture in inits.AwardCultures)
             {
-                string message = _discordClient.CultureHelper.GetOutputString("GiveawayWinner", culture) + Environment.NewLine;
+                string message = _discordClient.CultureHelper.GetOutputString("GiveawayWinner", culture)
+                                + Environment.NewLine + Environment.NewLine;
 
                 foreach (IUser winner in winners)
                 {
-                    message += $":trophy: {winner.Mention} :trophy:" + Environment.NewLine;
+                    message += $":trophy: {winner.Mention} :trophy:" + Environment.NewLine + Environment.NewLine
+                            + winner.Username + _discordClient.CultureHelper.GetOutputString("GiveawayWinnerPrize", culture)
+                            + "**" + inits.CultureAward[culture] + "**" + Environment.NewLine;
                 }
-                message += _discordClient.CultureHelper.GetOutputString("GiveawayCongrats", culture) + Environment.NewLine;
+                message += _discordClient.CultureHelper.GetOutputString("GiveawayCongrats", culture) + Environment.NewLine + Environment.NewLine;
 
-                await channel.SendMessageAsync(message);
+                await inits.TargetChannel.SendMessageAsync(message);
             }
 
             await ReplyAsync(_discordClient.CultureHelper.GetAdminString("GiveawayWinnerAnnounced"));
+
+            inits.CountGiveAways--;
+            if (inits.CountGiveAways == 0)
+            {
+                StopGiveawayInternal();
+                return false;
+            }
+            return true;
         }
 
         public List<IUser> GetWinners(uint winnersCount, List<IUser> authors)
