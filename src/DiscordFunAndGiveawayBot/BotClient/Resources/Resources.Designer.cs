@@ -142,7 +142,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please tell me first when the drawings should take place..
+        ///   Looks up a localized string similar to Please tell me first when the giveaway should end..
         /// </summary>
         public static string GiveawayEnterTime {
             get {
@@ -178,7 +178,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How often should the Giveaway take place?.
+        ///   Looks up a localized string similar to How often should the giveaway take place?.
         /// </summary>
         public static string GiveawayHowOften {
             get {
@@ -196,7 +196,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Very well, what&apos;s the key word to participate in the draw?.
+        ///   Looks up a localized string similar to Very well, what&apos;s the key word users must reply, to participate in the raffle?.
         /// </summary>
         public static string GiveawayKeyword {
             get {
@@ -313,7 +313,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Of course, the next draw will take place at the following time: {0}.
+        ///   Looks up a localized string similar to Of course, the next raffle will take place at the following time: {0}.
         /// </summary>
         public static string GiveawayTimeResponse {
             get {
@@ -331,7 +331,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yout can enter `%cancel` all the time if you want to cancel the giveaway initiation!.
+        ///   Looks up a localized string similar to You can enter `%cancel` at any moment, if you want to cancel the giveaway initiation!.
         /// </summary>
         public static string GiveawayTypeCancel {
             get {
@@ -358,6 +358,15 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to , you won this prize:.
+        /// </summary>
+        public static string GiveawayWinnerPrize {
+            get {
+                return ResourceManager.GetString("GiveawayWinnerPrize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You did not enter a list of cultures, e.g. `en` or `en, de`.
         /// </summary>
         public static string GiveawayWrongCulture {
@@ -367,7 +376,7 @@ namespace BotClient.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Du hast keine korrekte Zeichenfolge eingegeben, z.B. `giveaway!`.
+        ///   Looks up a localized string similar to You did not enter a keyword, e.g. `giveaway!`.
         /// </summary>
         public static string GiveawayWrongKeyword {
             get {

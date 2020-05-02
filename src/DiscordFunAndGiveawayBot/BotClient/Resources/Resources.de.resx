@@ -130,13 +130,16 @@
     <value>Auf geht's zum nächsten Giveaway!</value>
   </data>
   <data name="GiveawayAnnounceWin" xml:space="preserve">
-    <value>Zu gewinnen gibt es: **{0}**</value>
+    <value>Der Preis, den es zu gewinnen gibt, ist: **{0}**</value>
+  </data>
+  <data name="GiveawayAwardCultures" xml:space="preserve">
+    <value>In welchen Sprachen sollen die Gewinner bekannt gegeben werden? Unterstützte Sprachen sind: </value>
   </data>
   <data name="GiveawayCongrats" xml:space="preserve">
     <value>Herzlichen Glückwunsch!</value>
   </data>
   <data name="GiveawayEnterStart" xml:space="preserve">
-    <value>Um zu Starten gebe jetzt bitte den Befehl: `start` ein!</value>
+    <value>Um zu Starten gebe jetzt bitte den Befehl: `%start` ein!</value>
   </data>
   <data name="GiveawayEnterTime" xml:space="preserve">
     <value>Bitte sag mir als Erstes, wann die Ziehungen stattfinden sollen.</value>
@@ -193,16 +196,22 @@
     <value>Alles klar, die nächste Ziehung findet zu folgendem Zeitpunkt statt: {0}</value>
   </data>
   <data name="GiveawayTryAgain" xml:space="preserve">
-    <value>Bitte probiere es erneut oder gebe `!cancel` ein um das Giveaway abzubrechen.</value>
+    <value>Bitte probiere es erneut oder gebe `%cancel` ein um das Giveaway abzubrechen.</value>
   </data>
   <data name="GiveawayTypeCancel" xml:space="preserve">
-    <value>Du kannst jederzeit `!cancel` eingeben um die Giveaway Einrichtung abzubrechen.</value>
+    <value>Du kannst jederzeit `%cancel` eingeben um die Giveaway Einrichtung abzubrechen.</value>
   </data>
   <data name="GiveawayWinner" xml:space="preserve">
     <value>Liebe Freunde, wir haben einen Gewinner:</value>
   </data>
   <data name="GiveawayWinnerAnnounced" xml:space="preserve">
     <value>Der Gewinner wurde bekannt gegeben!</value>
+  </data>
+  <data name="GiveawayWinnerPrize" xml:space="preserve">
+    <value>, du hast folgenden Preis gewonnen: </value>
+  </data>
+  <data name="GiveawayWrongCulture" xml:space="preserve">
+    <value>Du hast keine Liste von Sprachen übergeben, z.B. `en` oder `en, de`</value>
   </data>
   <data name="GiveawayWrongKeyword" xml:space="preserve">
     <value>You did not enter a correct string, e.g. `giveaway!`</value>

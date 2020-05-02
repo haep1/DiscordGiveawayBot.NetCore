@@ -11,7 +11,7 @@ namespace Bot.Interfaces
     public interface IGiveAway
     {
         string GetGiveawayMessage(CultureInfo culture, IGiveAwayValues inits, bool first);
-        Task GetWinners([Summary("Name des Channels")]IMessageChannel channel, string codeword);
+        Task AnnounceWinner();
         List<IUser> GetWinners(uint winnersCount, List<IUser> authors);
         Task InitGiveAway();
         Task InitGiveAway(IMessageChannel channel);

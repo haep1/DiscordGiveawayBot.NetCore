@@ -1,10 +1,10 @@
 # DiscordFunAndGiveawayBot
 
-This is a Discord Bot, that ist written ASP.NET Core and C#.
-The bot owns some different features, the main features is to organize giveaway-raffles in specific channels.
+This is a Discord Bot, written in ASP.NET Core and C#.
+The bot has different features, the main features is to organize giveaway-raffles in specific channels.
 
 The difference to other Discord Bots is, that you can run a giveaway for a longer time - e.g. for some days. 
-People can participate by entering a predefined keyword.
+People can participate by entering a predefined keyword while the raffle is running.
 
 
 > **You can add the Bot to your Discord server using this URL:** <br/>
@@ -18,22 +18,24 @@ The bot supports following features at the moment:
 * Multi language support: The bot supports one admin language and multiple outgoing languages for bot posts in the channel.
    At the moment two languages are completely integrated: English and German
 
-### Fun actions
-* Let the bot post an user defined message in a specific channel
-* Post messages that mention a specific person
-
 ### Giveaways
 * Init new giveaways with a lot of settings:
    * Set the time of the current day OR set a specific datetime
+   * Define the languages for the announcement
    * Set the codeword, that users must enter to participate
    * Set the name of the prize in all languages you want to support
    
+### Fun actions
+* Let the bot post an user defined message in a specific channel
+* Post messages that mention a specific person
+   
 ### Commands
-`%sendmessage #channel` - Bot sends a message to that channel<br/>
-`%sendmessage #channel @person` - Bot sends a message tot that channel and mentions the person<br/>
 `%initgiveaway #channel` - Inits a new giveaway. All further steps are explained by the giveaway workflow<br/>
 `%cancel` - Cancel the giveaway initiation<br/>
-`%start` - Start the initiated giveaway
+`%start` - Start the initiated giveaway<br/>
+`%announcewinner` - Announce the winner at once, without waiting for the giveaway end time<br/><br/>
+`%sendmessage #channel` - Bot sends a message to that channel<br/>
+`%sendmessage #channel @person` - Bot sends a message tot that channel and mentions the person
 
 
 ## Dev information

@@ -52,7 +52,7 @@ namespace BotClient
                                                           _discordClient.CultureHelper.OutputCultures.Select(x => x.Name));
 
             string nextQuestion = _discordClient.CultureHelper.GetAdminString("GiveawayAwardCultures")
-                    + supportedOutputLanguages
+                    + "**" + supportedOutputLanguages + "**"
                     + Environment.NewLine + _discordClient.CultureHelper.GetAdminString("GiveawyAwardCulturesExample");
             return nextQuestion;
         }
@@ -68,7 +68,7 @@ namespace BotClient
             {
                 try
                 {
-                    CultureInfo info = CultureInfo.GetCultureInfo(item);
+                    CultureInfo info = CultureInfo.GetCultureInfo(item.Trim());
                     awardCultures.Add(info);
                     foundCulture = true;
                 }
