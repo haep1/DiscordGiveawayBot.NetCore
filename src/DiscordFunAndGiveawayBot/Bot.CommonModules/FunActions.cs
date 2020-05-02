@@ -1,6 +1,6 @@
-﻿using Bot.Interfaces;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bot.CommonModules
@@ -43,7 +43,26 @@ namespace Bot.CommonModules
             if (!arg.Author.IsBot && arg.Author == _messageAuthor && arg.Channel == _currentChannel)
             {
                 _discordClient.Client.MessageReceived -= Client_MessageReceived;
-                await _channel.SendMessageAsync(_user?.Mention + " " + arg.Content);
+                EmbedBuilder embed = null;
+
+                if (arg.Attachments.Count > 0)
+                {
+                    embed = new EmbedBuilder();
+                    foreach (Attachment attachment in arg.Attachments)
+                    {
+                        // check if it is an image is only possible by checking width/height
+                        if (attachment.Width != null)
+                        {
+                            embed.WithImageUrl(attachment.Url);
+                        }
+                        else
+                        {
+                            embed.WithDescription(attachment.Url);
+                        }
+                    }
+                }
+
+                await _channel.SendMessageAsync(_user?.Mention + " " + arg.Content, false, embed.Build());
                 _channel = null;
                 _user = null;
                 _messageAuthor = null;
