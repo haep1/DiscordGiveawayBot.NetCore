@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
   <ItemGroup>
-    <PackageReference Include="Hangfire" Version="1.7.2" />
+    <PackageReference Include="Hangfire" Version="1.7.31" />
   </ItemGroup>
 
   <ItemGroup>

@@ -284,7 +284,7 @@ namespace Bot.Giveaway
 
         private async Task<bool> ShoutOutTheWinners(GiveAwayValues inits)
         {
-            List<IReadOnlyCollection<IMessage>> readonlymessages = await inits.TargetChannel.GetMessagesAsync(1000).ToList();
+            List<IReadOnlyCollection<IMessage>> readonlymessages = await inits.TargetChannel.GetMessagesAsync(1000).ToListAsync();
             List<IMessage> messages = readonlymessages.SelectMany(x => x).ToList();
             IMessage latestBotMessage = messages.FirstOrDefault(x => x.Author.Id == Context.Client.CurrentUser.Id);
             List<IMessage> latestMessages;
